@@ -4,7 +4,7 @@ import './globals.css';
 
 const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] });
 const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] });
-const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://certpath-cca-foundations.soft-loom-2658.chatgpt.site').replace(/\/$/, '');
+const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://certpath-cca-foundations.ddimov-1999.chatgpt.site').replace(/\/$/, '');
 const socialImage = `${siteUrl}/og.png`;
 
 export const metadata: Metadata = {
