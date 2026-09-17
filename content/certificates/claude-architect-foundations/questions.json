@@ -1,0 +1,1799 @@
+[
+  {
+    "id": "cca-f-q-1",
+    "number": 1,
+    "domainId": "d1",
+    "prompt": "A support agent sometimes calls `issue_refund` before verifying the customer. Refunds are irreversible once submitted. Which change most directly fixes the risk?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Add three examples showing verification first"
+      },
+      {
+        "id": "B",
+        "text": "Raise the model’s reasoning effort"
+      },
+      {
+        "id": "C",
+        "text": "Block `issue_refund` programmatically unless verified state exists"
+      },
+      {
+        "id": "D",
+        "text": "Ask the agent to report confidence before refunding"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": "Financial and identity prerequisites require deterministic application enforcement; prompts and examples only reduce probability of error."
+  },
+  {
+    "id": "cca-f-q-2",
+    "number": 2,
+    "domainId": "d1",
+    "prompt": "A client-tool response has `stop_reason: \"tool_use\"` and two tool calls. What should the application do next?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Treat the assistant’s accompanying text as the final response"
+      },
+      {
+        "id": "B",
+        "text": "Execute the calls, append correlated `tool_result` blocks, and continue the loop"
+      },
+      {
+        "id": "C",
+        "text": "Send only the tool outputs in a new conversation"
+      },
+      {
+        "id": "D",
+        "text": "Retry the identical model request without modifying history"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "Client tools require execution plus correlated results appended to the conversation before the next model call."
+  },
+  {
+    "id": "cca-f-q-3",
+    "number": 3,
+    "domainId": "d1",
+    "prompt": "A coordinator sends independent research tasks to four specialists. Which two practices best support reliable synthesis?",
+    "select": 2,
+    "options": [
+      {
+        "id": "A",
+        "text": "Give each specialist the entire coordinator history automatically"
+      },
+      {
+        "id": "B",
+        "text": "Assign distinct scopes and a common structured output contract"
+      },
+      {
+        "id": "C",
+        "text": "Require claim-to-source mappings in every result"
+      },
+      {
+        "id": "D",
+        "text": "Allow specialists to message one another directly without coordinator visibility"
+      },
+      {
+        "id": "E",
+        "text": "Give every specialist all available tools"
+      }
+    ],
+    "answer": [
+      "B",
+      "C"
+    ],
+    "explanation": "Distinct scopes reduce duplication, and a shared structured contract with provenance makes aggregation reliable."
+  },
+  {
+    "id": "cca-f-q-4",
+    "number": 4,
+    "domainId": "d1",
+    "prompt": "A compliance review always requires document classification, PII detection, and policy comparison in that order. The steps and contracts are stable. Which architecture is best?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "An unconstrained autonomous agent"
+      },
+      {
+        "id": "B",
+        "text": "A fixed prompt chain with validated stage outputs"
+      },
+      {
+        "id": "C",
+        "text": "Four parallel agents with shared memory"
+      },
+      {
+        "id": "D",
+        "text": "A single long prompt with no intermediate validation"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "Stable, ordered compliance stages are a workflow, not an open-ended agent problem."
+  },
+  {
+    "id": "cca-f-q-5",
+    "number": 5,
+    "domainId": "d1",
+    "prompt": "A research agent must decide which sources to inspect based on evidence discovered during the run. Which design best fits?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "A rigid sequence listing every possible query"
+      },
+      {
+        "id": "B",
+        "text": "An adaptive agent with scoped tools, budget, and completion criteria"
+      },
+      {
+        "id": "C",
+        "text": "A batch job with one static prompt per source"
+      },
+      {
+        "id": "D",
+        "text": "A forced tool call that always invokes the same search"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "Evidence-dependent next steps justify an adaptive agent, but it still needs explicit boundaries."
+  },
+  {
+    "id": "cca-f-q-6",
+    "number": 6,
+    "domainId": "d1",
+    "prompt": "A synthesis subagent is missing important facts found earlier by a search subagent. What is the most likely architectural cause?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "The synthesis model needs a higher temperature"
+      },
+      {
+        "id": "B",
+        "text": "Subagents do not automatically inherit one another’s context"
+      },
+      {
+        "id": "C",
+        "text": "Search tools cannot return text"
+      },
+      {
+        "id": "D",
+        "text": "The coordinator should remove metadata to save tokens"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "Isolated subagents need relevant prior findings passed explicitly."
+  },
+  {
+    "id": "cca-f-q-7",
+    "number": 7,
+    "domainId": "d1",
+    "prompt": "Which tasks are safe and beneficial to parallelize?",
+    "select": 2,
+    "options": [
+      {
+        "id": "A",
+        "text": "Calculate a refund, then submit that exact refund"
+      },
+      {
+        "id": "B",
+        "text": "Search four independent source collections"
+      },
+      {
+        "id": "C",
+        "text": "Analyze independent files before a later integration pass"
+      },
+      {
+        "id": "D",
+        "text": "Verify identity, then access the verified account"
+      },
+      {
+        "id": "E",
+        "text": "Generate a schema, then validate against that schema"
+      }
+    ],
+    "answer": [
+      "B",
+      "C"
+    ],
+    "explanation": "Independent collections/files can run concurrently; the other pairs have data dependencies."
+  },
+  {
+    "id": "cca-f-q-8",
+    "number": 8,
+    "domainId": "d1",
+    "prompt": "A subagent’s source API times out twice but it has useful partial results. What should it return to the coordinator?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "An empty success result"
+      },
+      {
+        "id": "B",
+        "text": "A generic “search unavailable” string"
+      },
+      {
+        "id": "C",
+        "text": "Structured failure details, attempts, partial results, and possible alternatives"
+      },
+      {
+        "id": "D",
+        "text": "Nothing; the coordinator should infer failure from silence"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": "Structured partial failure lets the coordinator retry, switch source, continue with a gap, or escalate."
+  },
+  {
+    "id": "cca-f-q-9",
+    "number": 9,
+    "domainId": "d1",
+    "prompt": "A developer adds a hard maximum of five agent iterations as the only completion rule. What is the main problem?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Iteration limits are never allowed"
+      },
+      {
+        "id": "B",
+        "text": "The agent may stop before the outcome is met or loop wastefully until the cap"
+      },
+      {
+        "id": "C",
+        "text": "Tool results cannot be used after five turns"
+      },
+      {
+        "id": "D",
+        "text": "The model will ignore the limit"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "A safety cap is useful, but it is not an outcome criterion and should not be the sole termination rule."
+  },
+  {
+    "id": "cca-f-q-10",
+    "number": 10,
+    "domainId": "d1",
+    "prompt": "A coordinator always invokes search, document analysis, legal review, translation, and synthesis even for a simple summarization request. What is the best improvement?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Increase the number of specialists"
+      },
+      {
+        "id": "B",
+        "text": "Let the coordinator route dynamically based on requirements"
+      },
+      {
+        "id": "C",
+        "text": "Merge all tools into the coordinator"
+      },
+      {
+        "id": "D",
+        "text": "Run the same full pipeline in parallel"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "Requirement-aware routing avoids needless cost, latency, and failure surface."
+  },
+  {
+    "id": "cca-f-q-11",
+    "number": 11,
+    "domainId": "d1",
+    "prompt": "An agent receives dates as Unix timestamps from one tool and ISO strings from another. Downstream reasoning frequently compares them incorrectly. Where is the best fix?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "A post-tool normalization layer that produces one canonical format"
+      },
+      {
+        "id": "B",
+        "text": "More examples in the final report prompt"
+      },
+      {
+        "id": "C",
+        "text": "A larger context window"
+      },
+      {
+        "id": "D",
+        "text": "A third agent that guesses the intended date"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": "Normalize at the tool boundary before reasoning depends on the values."
+  },
+  {
+    "id": "cca-f-q-12",
+    "number": 12,
+    "domainId": "d1",
+    "prompt": "Two proposed refactoring strategies should be explored independently from the same codebase analysis. Which state pattern is best?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Continue both strategies in one shared conversation"
+      },
+      {
+        "id": "B",
+        "text": "Fork independent sessions from the common verified baseline"
+      },
+      {
+        "id": "C",
+        "text": "Start both from no context"
+      },
+      {
+        "id": "D",
+        "text": "Put both strategies into one tool description"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "Forking preserves a common baseline while preventing the two approaches from contaminating each other."
+  },
+  {
+    "id": "cca-f-q-13",
+    "number": 13,
+    "domainId": "d1",
+    "prompt": "Which controls appropriately bound a long autonomous coding task?",
+    "select": 2,
+    "options": [
+      {
+        "id": "A",
+        "text": "Clear outcome and acceptance criteria"
+      },
+      {
+        "id": "B",
+        "text": "Unrestricted Bash and network access"
+      },
+      {
+        "id": "C",
+        "text": "Cost/time budgets and checkpoints"
+      },
+      {
+        "id": "D",
+        "text": "Natural-language promise to avoid risky actions"
+      },
+      {
+        "id": "E",
+        "text": "Suppression of all progress signals"
+      }
+    ],
+    "answer": [
+      "A",
+      "C"
+    ],
+    "explanation": "Outcome criteria, budgets, and checkpoints bound autonomy; unrestricted access and promises do not."
+  },
+  {
+    "id": "cca-f-q-14",
+    "number": 14,
+    "domainId": "d1",
+    "prompt": "A coordinator gives the synthesizer a narrow instruction: “Write only about market size.” The user asked for a broad market assessment. The final report omits regulation and competitors. What is the best root-cause fix?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Increase output tokens"
+      },
+      {
+        "id": "B",
+        "text": "Decompose against the full user goal and explicit coverage criteria"
+      },
+      {
+        "id": "C",
+        "text": "Add another market-size agent"
+      },
+      {
+        "id": "D",
+        "text": "Hide the original request from the coordinator"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "The decomposition lost the original coverage goal; more tokens do not repair the scope."
+  },
+  {
+    "id": "cca-f-q-15",
+    "number": 15,
+    "domainId": "d1",
+    "prompt": "A human escalation occurs midway through a billing investigation. The human does not have the chat transcript. What should the handoff contain?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Only the last customer message"
+      },
+      {
+        "id": "B",
+        "text": "The full raw token transcript only"
+      },
+      {
+        "id": "C",
+        "text": "Verified identity, issue, evidence, actions attempted, current state, and recommendation"
+      },
+      {
+        "id": "D",
+        "text": "The agent’s private reasoning"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": "A structured operational handoff gives the human enough verified state to continue safely."
+  },
+  {
+    "id": "cca-f-q-16",
+    "number": 16,
+    "domainId": "d1",
+    "prompt": "An agent resumed a week-old session after several relevant files changed. What is the most reliable approach?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Trust all previous tool results"
+      },
+      {
+        "id": "B",
+        "text": "Tell the agent exactly what changed and revalidate affected findings, or start fresh from a verified summary"
+      },
+      {
+        "id": "C",
+        "text": "Remove the changed files from context"
+      },
+      {
+        "id": "D",
+        "text": "Increase the session’s temperature"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "Stale observations must be invalidated or rechecked; a fresh verified summary is safer when much has changed."
+  },
+  {
+    "id": "cca-f-q-17",
+    "number": 17,
+    "domainId": "d2",
+    "prompt": "Two tools named `analyze_content` and `analyze_document` have nearly identical descriptions. Claude selects them inconsistently. What should you change first?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Add more tools"
+      },
+      {
+        "id": "B",
+        "text": "Rename and redescribe them with distinct purposes, boundaries, inputs, and outputs"
+      },
+      {
+        "id": "C",
+        "text": "Force both tools on every turn"
+      },
+      {
+        "id": "D",
+        "text": "Put the names in uppercase"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "Tool selection is driven heavily by names and descriptions; remove overlap before adding prompt workarounds."
+  },
+  {
+    "id": "cca-f-q-18",
+    "number": 18,
+    "domainId": "d2",
+    "prompt": "A lookup executes successfully and finds no matching records. How should the tool represent this?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "A transient error"
+      },
+      {
+        "id": "B",
+        "text": "A permission error"
+      },
+      {
+        "id": "C",
+        "text": "A successful empty result"
+      },
+      {
+        "id": "D",
+        "text": "A retryable business error"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": "“No matches” after a successful query is valid data, not a transport or authorization failure."
+  },
+  {
+    "id": "cca-f-q-19",
+    "number": 19,
+    "domainId": "d2",
+    "prompt": "Which fields make an MCP error useful for agent recovery?",
+    "select": 3,
+    "options": [
+      {
+        "id": "A",
+        "text": "Error category"
+      },
+      {
+        "id": "B",
+        "text": "Retryability"
+      },
+      {
+        "id": "C",
+        "text": "Human-readable/safe explanation"
+      },
+      {
+        "id": "D",
+        "text": "Hidden stack memory address"
+      },
+      {
+        "id": "E",
+        "text": "A generic “failed” message only"
+      }
+    ],
+    "answer": [
+      "A",
+      "B",
+      "C"
+    ],
+    "explanation": "Category, retryability, and safe explanation support recovery and user communication."
+  },
+  {
+    "id": "cca-f-q-20",
+    "number": 20,
+    "domainId": "d2",
+    "prompt": "You need Claude to produce one of three structured extraction calls, but conversational text is not acceptable. Which tool-choice setting best fits?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Auto"
+      },
+      {
+        "id": "B",
+        "text": "Any"
+      },
+      {
+        "id": "C",
+        "text": "None"
+      },
+      {
+        "id": "D",
+        "text": "Force all three tools"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "`any` requires a tool call while allowing Claude to choose the appropriate extraction schema."
+  },
+  {
+    "id": "cca-f-q-21",
+    "number": 21,
+    "domainId": "d2",
+    "prompt": "Metadata extraction must always happen before any enrichment tool. What is the strongest first-turn control?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Ask politely in the user message"
+      },
+      {
+        "id": "B",
+        "text": "Force the named metadata tool, then allow later choices on subsequent turns"
+      },
+      {
+        "id": "C",
+        "text": "Give enrichment tools longer descriptions"
+      },
+      {
+        "id": "D",
+        "text": "Run every tool concurrently"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "Forced named selection creates the required first stage deterministically at the model interface."
+  },
+  {
+    "id": "cca-f-q-22",
+    "number": 22,
+    "domainId": "d2",
+    "prompt": "A project’s shared MCP configuration needs a GitHub token. What is the best design?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Commit the token in `.mcp.json`"
+      },
+      {
+        "id": "B",
+        "text": "Put the shared server configuration in project scope and reference an environment-provided secret"
+      },
+      {
+        "id": "C",
+        "text": "Ask the model to remember the token"
+      },
+      {
+        "id": "D",
+        "text": "Store it in a project `CLAUDE.md`"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "Share safe configuration; inject secrets at runtime from an approved source."
+  },
+  {
+    "id": "cca-f-q-23",
+    "number": 23,
+    "domainId": "d2",
+    "prompt": "A team needs a read-only catalog of internal documentation pages so Claude can see what exists before requesting content. Which MCP primitive is the best fit?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Resource"
+      },
+      {
+        "id": "B",
+        "text": "Prompt"
+      },
+      {
+        "id": "C",
+        "text": "Destructive tool"
+      },
+      {
+        "id": "D",
+        "text": "Hook"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": "A resource is appropriate for app-exposed, read-only discoverable content."
+  },
+  {
+    "id": "cca-f-q-24",
+    "number": 24,
+    "domainId": "d2",
+    "prompt": "Which statement correctly distinguishes MCP prompts from tools?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Prompts are model-controlled actions; tools are user-selected templates"
+      },
+      {
+        "id": "B",
+        "text": "Prompts are user-controlled reusable templates; tools are model-controlled operations"
+      },
+      {
+        "id": "C",
+        "text": "They are equivalent and differ only by name"
+      },
+      {
+        "id": "D",
+        "text": "Prompts can hold secrets; tools cannot"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "MCP prompts are user-controlled templates; tools are model-selected actions/queries."
+  },
+  {
+    "id": "cca-f-q-25",
+    "number": 25,
+    "domainId": "d2",
+    "prompt": "A document-analysis subagent only needs to read approved documents. Which controls best follow least privilege?",
+    "select": 2,
+    "options": [
+      {
+        "id": "A",
+        "text": "Give it unrestricted URL fetching"
+      },
+      {
+        "id": "B",
+        "text": "Give it a `load_approved_document` tool that validates identifiers"
+      },
+      {
+        "id": "C",
+        "text": "Omit write and shell tools"
+      },
+      {
+        "id": "D",
+        "text": "Give it every tool in case requirements change"
+      },
+      {
+        "id": "E",
+        "text": "Allow it to alter MCP configuration"
+      }
+    ],
+    "answer": [
+      "B",
+      "C"
+    ],
+    "explanation": "A validated narrow reader plus omission of write/shell capabilities implements least privilege."
+  },
+  {
+    "id": "cca-f-q-26",
+    "number": 26,
+    "domainId": "d2",
+    "prompt": "Claude must find every caller of `processPayment` in a repository. Which built-in tool is the best first choice?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Glob"
+      },
+      {
+        "id": "B",
+        "text": "Grep"
+      },
+      {
+        "id": "C",
+        "text": "Write"
+      },
+      {
+        "id": "D",
+        "text": "Edit"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "Grep searches file contents."
+  },
+  {
+    "id": "cca-f-q-27",
+    "number": 27,
+    "domainId": "d2",
+    "prompt": "Claude must find all files matching `**/*.integration.test.ts`. Which built-in tool is the best first choice?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Glob"
+      },
+      {
+        "id": "B",
+        "text": "Grep"
+      },
+      {
+        "id": "C",
+        "text": "Bash with unrestricted shell"
+      },
+      {
+        "id": "D",
+        "text": "Write"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": "Glob matches file paths and naming patterns."
+  },
+  {
+    "id": "cca-f-q-28",
+    "number": 28,
+    "domainId": "d3",
+    "prompt": "A coding standard must apply to every team member and be version-controlled. Where should it live?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "User-level configuration only"
+      },
+      {
+        "id": "B",
+        "text": "Project-scoped configuration"
+      },
+      {
+        "id": "C",
+        "text": "A developer’s shell history"
+      },
+      {
+        "id": "D",
+        "text": "An untracked local note"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "Shared standards belong in version-controlled project scope."
+  },
+  {
+    "id": "cca-f-q-29",
+    "number": 29,
+    "domainId": "d3",
+    "prompt": "Test conventions apply to files named `*.test.ts` across many directories. What is the most maintainable mechanism?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Repeat the text in every subdirectory"
+      },
+      {
+        "id": "B",
+        "text": "A path-scoped rule using a glob for test files"
+      },
+      {
+        "id": "C",
+        "text": "A user-only `CLAUDE.md`"
+      },
+      {
+        "id": "D",
+        "text": "A one-time chat message"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "A glob-scoped rule follows the file pattern across directories without duplication."
+  },
+  {
+    "id": "cca-f-q-30",
+    "number": 30,
+    "domainId": "d3",
+    "prompt": "A long security-review playbook should load only when relevant. Which feature best fits?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Put the entire playbook in always-loaded `CLAUDE.md`"
+      },
+      {
+        "id": "B",
+        "text": "Package it as a skill with a precise description"
+      },
+      {
+        "id": "C",
+        "text": "Put it in an API key variable"
+      },
+      {
+        "id": "D",
+        "text": "Add it to every user prompt"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "Skills load reusable task-specific knowledge on demand."
+  },
+  {
+    "id": "cca-f-q-31",
+    "number": 31,
+    "domainId": "d3",
+    "prompt": "A repository exploration will produce large amounts of intermediate output that the main coding conversation does not need. What should you use?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "An isolated exploration subagent"
+      },
+      {
+        "id": "B",
+        "text": "A longer root `CLAUDE.md`"
+      },
+      {
+        "id": "C",
+        "text": "More verbose main-session tool output"
+      },
+      {
+        "id": "D",
+        "text": "A forced write tool"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": "A subagent isolates verbose exploration and returns a compact result."
+  },
+  {
+    "id": "cca-f-q-32",
+    "number": 32,
+    "domainId": "d3",
+    "prompt": "A policy must block edits to production secrets every time. Where should the guarantee live?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "A sentence in `CLAUDE.md` only"
+      },
+      {
+        "id": "B",
+        "text": "A deterministic permission rule or pre-tool hook"
+      },
+      {
+        "id": "C",
+        "text": "A few-shot example"
+      },
+      {
+        "id": "D",
+        "text": "A post-hoc code review only"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "A hard guarantee belongs in permissions or deterministic pre-action enforcement."
+  },
+  {
+    "id": "cca-f-q-33",
+    "number": 33,
+    "domainId": "d3",
+    "prompt": "A task restructures a monolith into services across dozens of files and has several valid boundary choices. What is the best starting mode?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Direct execution"
+      },
+      {
+        "id": "B",
+        "text": "Plan mode with codebase exploration and design review"
+      },
+      {
+        "id": "C",
+        "text": "Non-interactive batch output without inspection"
+      },
+      {
+        "id": "D",
+        "text": "A one-line edit"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "Architectural, multi-file, multi-option work should be explored and reviewed before edits."
+  },
+  {
+    "id": "cca-f-q-34",
+    "number": 34,
+    "domainId": "d3",
+    "prompt": "A clear stack trace points to one missing null check in a single function. What is the best approach?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Direct execution followed by the relevant test"
+      },
+      {
+        "id": "B",
+        "text": "A multi-day architecture plan"
+      },
+      {
+        "id": "C",
+        "text": "Four parallel research agents"
+      },
+      {
+        "id": "D",
+        "text": "Rebuild the application"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": "The change is small and well understood; direct execution plus verification is proportionate."
+  },
+  {
+    "id": "cca-f-q-35",
+    "number": 35,
+    "domainId": "d3",
+    "prompt": "Which are appropriate contents for a lean project `CLAUDE.md`?",
+    "select": 2,
+    "options": [
+      {
+        "id": "A",
+        "text": "Stable build and test commands"
+      },
+      {
+        "id": "B",
+        "text": "Non-obvious architecture boundaries"
+      },
+      {
+        "id": "C",
+        "text": "Every framework manual copied in full"
+      },
+      {
+        "id": "D",
+        "text": "Personal preferences unrelated to the team"
+      },
+      {
+        "id": "E",
+        "text": "API secrets"
+      }
+    ],
+    "answer": [
+      "A",
+      "B"
+    ],
+    "explanation": "Stable commands and boundaries are useful always-on context; manuals, secrets, and personal preferences are not."
+  },
+  {
+    "id": "cca-f-q-36",
+    "number": 36,
+    "domainId": "d3",
+    "prompt": "A CI job runs `claude \"review this diff\"` and waits for interaction. Which change is necessary?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Use `claude -p \"review this diff\"`"
+      },
+      {
+        "id": "B",
+        "text": "Add an undocumented `--batch` flag"
+      },
+      {
+        "id": "C",
+        "text": "Increase terminal timeout indefinitely"
+      },
+      {
+        "id": "D",
+        "text": "Redirect the output back to input"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": "`-p`/`--print` is the non-interactive invocation."
+  },
+  {
+    "id": "cca-f-q-37",
+    "number": 37,
+    "domainId": "d3",
+    "prompt": "An automated system must parse Claude Code review findings. What should the pipeline request?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Decorative prose only"
+      },
+      {
+        "id": "B",
+        "text": "Machine-readable structured output constrained by a schema"
+      },
+      {
+        "id": "C",
+        "text": "A screenshot"
+      },
+      {
+        "id": "D",
+        "text": "An interactive permission dialogue"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "Downstream automation needs a stable machine-readable contract."
+  },
+  {
+    "id": "cca-f-q-38",
+    "number": 38,
+    "domainId": "d3",
+    "prompt": "The same session generated a change and then approved its own code review. Important problems were missed. What is the best improvement?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Ask the same session to “look harder”"
+      },
+      {
+        "id": "B",
+        "text": "Use an independent review session with the diff, criteria, and relevant context"
+      },
+      {
+        "id": "C",
+        "text": "Hide the diff"
+      },
+      {
+        "id": "D",
+        "text": "Remove tests from context"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "A separate context provides a more independent check and avoids anchoring on generation reasoning."
+  },
+  {
+    "id": "cca-f-q-39",
+    "number": 39,
+    "domainId": "d3",
+    "prompt": "When is a skill preferable to `CLAUDE.md`?",
+    "select": 2,
+    "options": [
+      {
+        "id": "A",
+        "text": "The material is a task-specific workflow invoked on demand"
+      },
+      {
+        "id": "B",
+        "text": "The content is large reference material needed only for one class of tasks"
+      },
+      {
+        "id": "C",
+        "text": "The rule must apply to every action in every session"
+      },
+      {
+        "id": "D",
+        "text": "The requirement is to block a dangerous tool call deterministically"
+      },
+      {
+        "id": "E",
+        "text": "The item is a secret token"
+      }
+    ],
+    "answer": [
+      "A",
+      "B"
+    ],
+    "explanation": "On-demand workflow/reference content fits a skill; universal rules fit `CLAUDE.md`, hard blocks fit hooks/permissions."
+  },
+  {
+    "id": "cca-f-q-40",
+    "number": 40,
+    "domainId": "d4",
+    "prompt": "A team keeps revising a review prompt based on anecdotes. Results vary and no one can tell whether a revision helped. What should happen first?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Add more adjectives to the prompt"
+      },
+      {
+        "id": "B",
+        "text": "Define success criteria and a representative evaluation set"
+      },
+      {
+        "id": "C",
+        "text": "Switch randomly between models"
+      },
+      {
+        "id": "D",
+        "text": "Increase output length"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "Prompt improvement requires explicit success criteria and repeatable evaluation."
+  },
+  {
+    "id": "cca-f-q-41",
+    "number": 41,
+    "domainId": "d4",
+    "prompt": "A code reviewer flags harmless style preferences as critical defects. Which prompt improvement is most direct?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Say “be more accurate”"
+      },
+      {
+        "id": "B",
+        "text": "Define reportable categories, exclusions, severity criteria, and boundary examples"
+      },
+      {
+        "id": "C",
+        "text": "Ask for more findings"
+      },
+      {
+        "id": "D",
+        "text": "Remove all examples"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "Concrete categories, exclusions, severities, and examples define the decision boundary and reduce false positives."
+  },
+  {
+    "id": "cca-f-q-42",
+    "number": 42,
+    "domainId": "d4",
+    "prompt": "Detailed prose instructions still produce inconsistent labels on ambiguous support tickets. What is the best next technique?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Add 2–4 targeted few-shot examples covering the decision boundaries"
+      },
+      {
+        "id": "B",
+        "text": "Repeat the same prose five times"
+      },
+      {
+        "id": "C",
+        "text": "Increase randomness"
+      },
+      {
+        "id": "D",
+        "text": "Make every label optional"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": "A few carefully chosen examples teach ambiguous classification boundaries more effectively than repeated prose."
+  },
+  {
+    "id": "cca-f-q-43",
+    "number": 43,
+    "domainId": "d4",
+    "prompt": "A downstream service requires valid JSON matching a known schema. Which current API feature most directly provides this?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "A prose request saying “return JSON”"
+      },
+      {
+        "id": "B",
+        "text": "JSON structured output with a JSON Schema"
+      },
+      {
+        "id": "C",
+        "text": "Regex extraction from arbitrary prose"
+      },
+      {
+        "id": "D",
+        "text": "A longer user message"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "JSON structured outputs constrain the response to the supplied schema."
+  },
+  {
+    "id": "cca-f-q-44",
+    "number": 44,
+    "domainId": "d4",
+    "prompt": "A response is valid against the invoice schema, but its line items total 920 while `total` is 980. What failed?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "JSON syntax validation"
+      },
+      {
+        "id": "B",
+        "text": "Semantic validation"
+      },
+      {
+        "id": "C",
+        "text": "Tool discovery"
+      },
+      {
+        "id": "D",
+        "text": "MCP transport"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "The object is syntactically/schema valid but violates a domain relationship."
+  },
+  {
+    "id": "cca-f-q-45",
+    "number": 45,
+    "domainId": "d4",
+    "prompt": "Some source contracts genuinely omit a termination date. How should the extraction schema handle it?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Require a date so Claude must infer one"
+      },
+      {
+        "id": "B",
+        "text": "Allow null/absence and capture evidence status"
+      },
+      {
+        "id": "C",
+        "text": "Substitute today’s date"
+      },
+      {
+        "id": "D",
+        "text": "Retry until a date appears"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "Honest absence prevents fabricated dates and preserves downstream meaning."
+  },
+  {
+    "id": "cca-f-q-46",
+    "number": 46,
+    "domainId": "d4",
+    "prompt": "Which are good uses of an `other` category plus a detail field?",
+    "select": 2,
+    "options": [
+      {
+        "id": "A",
+        "text": "The known enum covers common categories but legitimate new categories may occur"
+      },
+      {
+        "id": "B",
+        "text": "The system needs a truthful representation outside the closed list"
+      },
+      {
+        "id": "C",
+        "text": "The category must be one of exactly two values by policy"
+      },
+      {
+        "id": "D",
+        "text": "The developer does not want to define any categories"
+      },
+      {
+        "id": "E",
+        "text": "Missing evidence should be fabricated"
+      }
+    ],
+    "answer": [
+      "A",
+      "B"
+    ],
+    "explanation": "`other` plus detail keeps common categories normalized without forcing legitimate novel cases into the wrong enum."
+  },
+  {
+    "id": "cca-f-q-47",
+    "number": 47,
+    "domainId": "d4",
+    "prompt": "Semantic validation detects an impossible date order. What should a correction retry include?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Only “try again”"
+      },
+      {
+        "id": "B",
+        "text": "Original source, previous extraction, and the specific validation error"
+      },
+      {
+        "id": "C",
+        "text": "A different unrelated document"
+      },
+      {
+        "id": "D",
+        "text": "No schema"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "Specific feedback plus original evidence and failed output gives the model a correctable target."
+  },
+  {
+    "id": "cca-f-q-48",
+    "number": 48,
+    "domainId": "d4",
+    "prompt": "A required value is absent from the supplied document and exists only in an external system the model cannot access. What should the pipeline do?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Retry indefinitely"
+      },
+      {
+        "id": "B",
+        "text": "Mark it missing/unknown or retrieve it through an authorized tool"
+      },
+      {
+        "id": "C",
+        "text": "Infer the most likely value"
+      },
+      {
+        "id": "D",
+        "text": "Hide the missing field"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "No retry can recover evidence that is not present; represent absence or obtain authorized data."
+  },
+  {
+    "id": "cca-f-q-49",
+    "number": 49,
+    "domainId": "d4",
+    "prompt": "Which workload is the best fit for Message Batches?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "A blocking pre-merge security gate"
+      },
+      {
+        "id": "B",
+        "text": "A live support chat response"
+      },
+      {
+        "id": "C",
+        "text": "Overnight analysis of 50,000 documents"
+      },
+      {
+        "id": "D",
+        "text": "A user waiting for account verification"
+      }
+    ],
+    "answer": [
+      "C"
+    ],
+    "explanation": "High-volume, latency-tolerant overnight work is the canonical batch case."
+  },
+  {
+    "id": "cca-f-q-50",
+    "number": 50,
+    "domainId": "d4",
+    "prompt": "What are sound batch-processing practices?",
+    "select": 2,
+    "options": [
+      {
+        "id": "A",
+        "text": "Correlate requests and results with `custom_id`"
+      },
+      {
+        "id": "B",
+        "text": "Resubmit only failed items after addressing the cause"
+      },
+      {
+        "id": "C",
+        "text": "Assume guaranteed completion in five minutes"
+      },
+      {
+        "id": "D",
+        "text": "Use batch for every synchronous request"
+      },
+      {
+        "id": "E",
+        "text": "Omit evaluation on a sample before a large submission"
+      }
+    ],
+    "answer": [
+      "A",
+      "B"
+    ],
+    "explanation": "Correlation and selective resubmission reduce confusion and waste; batch latency is not guaranteed for blocking work."
+  },
+  {
+    "id": "cca-f-q-51",
+    "number": 51,
+    "domainId": "d4",
+    "prompt": "A 70-file change needs both local bug detection and cross-file data-flow review. Which architecture is strongest?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "One undifferentiated prompt over all files"
+      },
+      {
+        "id": "B",
+        "text": "Per-file review passes followed by an independent integration pass"
+      },
+      {
+        "id": "C",
+        "text": "Review only the largest file"
+      },
+      {
+        "id": "D",
+        "text": "Ask the generation session whether it feels confident"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "Focused local passes reduce attention dilution, while a separate integration pass finds cross-file problems."
+  },
+  {
+    "id": "cca-f-q-52",
+    "number": 52,
+    "domainId": "d5",
+    "prompt": "Order lookups return 45 fields, but the support agent needs only order ID, status, amount, date, and eligibility. What is the best context strategy?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Append all fields on every turn"
+      },
+      {
+        "id": "B",
+        "text": "Normalize and retain only relevant fields plus necessary provenance"
+      },
+      {
+        "id": "C",
+        "text": "Convert the output into longer prose"
+      },
+      {
+        "id": "D",
+        "text": "Repeat the tool call instead of storing facts"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "Context should contain the relevant normalized facts and provenance, not every upstream field."
+  },
+  {
+    "id": "cca-f-q-53",
+    "number": 53,
+    "domainId": "d5",
+    "prompt": "A summary turns “refund of EUR 247.35 promised by 18 September” into “refund promised soon.” What should the system change?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Use a persistent structured facts block for exact values and commitments"
+      },
+      {
+        "id": "B",
+        "text": "Summarize more aggressively"
+      },
+      {
+        "id": "C",
+        "text": "Remove the original currency"
+      },
+      {
+        "id": "D",
+        "text": "Rely on the model to remember"
+      }
+    ],
+    "answer": [
+      "A"
+    ],
+    "explanation": "Critical exact facts must live in structured durable state outside lossy summaries."
+  },
+  {
+    "id": "cca-f-q-54",
+    "number": 54,
+    "domainId": "d5",
+    "prompt": "Which statement about prompt caching is correct?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "It removes cached tokens from the context window"
+      },
+      {
+        "id": "B",
+        "text": "It can reduce repeated-input cost, but cached tokens still occupy context"
+      },
+      {
+        "id": "C",
+        "text": "It guarantees semantic accuracy"
+      },
+      {
+        "id": "D",
+        "text": "It replaces compaction"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "Caching changes repeated-input cost, not how much working context the tokens consume."
+  },
+  {
+    "id": "cca-f-q-55",
+    "number": 55,
+    "domainId": "d5",
+    "prompt": "A customer says, “Stop troubleshooting and connect me to a person.” What should the agent do?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Continue troubleshooting until confidence falls"
+      },
+      {
+        "id": "B",
+        "text": "Honor the explicit human request according to the escalation workflow"
+      },
+      {
+        "id": "C",
+        "text": "Escalate only if sentiment is classified as angry"
+      },
+      {
+        "id": "D",
+        "text": "Ask the customer to repeat the request three times"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "An explicit request for a human is a direct escalation trigger."
+  },
+  {
+    "id": "cca-f-q-56",
+    "number": 56,
+    "domainId": "d5",
+    "prompt": "A customer name matches three accounts. What is the safest next step?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Choose the most recently active account"
+      },
+      {
+        "id": "B",
+        "text": "Ask for a discriminating identifier"
+      },
+      {
+        "id": "C",
+        "text": "Choose the first search result"
+      },
+      {
+        "id": "D",
+        "text": "Average the account details"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "Ambiguous identity requires clarification, not heuristic selection."
+  },
+  {
+    "id": "cca-f-q-57",
+    "number": 57,
+    "domainId": "d5",
+    "prompt": "A system reports 97% aggregate extraction accuracy. What else is necessary before reducing human review?",
+    "select": 2,
+    "options": [
+      {
+        "id": "A",
+        "text": "Accuracy segmented by document type and field"
+      },
+      {
+        "id": "B",
+        "text": "A labeled set to calibrate confidence thresholds"
+      },
+      {
+        "id": "C",
+        "text": "Trust the aggregate alone"
+      },
+      {
+        "id": "D",
+        "text": "Review only low-confidence outputs forever"
+      },
+      {
+        "id": "E",
+        "text": "Remove ambiguous examples from evaluation"
+      }
+    ],
+    "answer": [
+      "A",
+      "B"
+    ],
+    "explanation": "Segment accuracy exposes minority failures, and labeled data is required to calibrate confidence."
+  },
+  {
+    "id": "cca-f-q-58",
+    "number": 58,
+    "domainId": "d5",
+    "prompt": "Why should some high-confidence outputs still be randomly reviewed?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "To make the system slower"
+      },
+      {
+        "id": "B",
+        "text": "To detect calibration drift and silent novel error patterns"
+      },
+      {
+        "id": "C",
+        "text": "Because confidence can never be useful"
+      },
+      {
+        "id": "D",
+        "text": "To increase token counts"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "Sampling high-confidence items reveals drift and confident novel errors that threshold routing would otherwise miss."
+  },
+  {
+    "id": "cca-f-q-59",
+    "number": 59,
+    "domainId": "d5",
+    "prompt": "Two credible sources give different revenue values, collected in different months. What should synthesis do?",
+    "select": 1,
+    "options": [
+      {
+        "id": "A",
+        "text": "Select the larger value without comment"
+      },
+      {
+        "id": "B",
+        "text": "Preserve both values with source and date, and explain the temporal difference"
+      },
+      {
+        "id": "C",
+        "text": "Average them"
+      },
+      {
+        "id": "D",
+        "text": "Remove both claims"
+      }
+    ],
+    "answer": [
+      "B"
+    ],
+    "explanation": "Preserve provenance and dates; the values may both be correct for their collection periods."
+  },
+  {
+    "id": "cca-f-q-60",
+    "number": 60,
+    "domainId": "d5",
+    "prompt": "What should survive a multi-agent summarization pipeline for each important claim?",
+    "select": 3,
+    "options": [
+      {
+        "id": "A",
+        "text": "Source identifier or URL"
+      },
+      {
+        "id": "B",
+        "text": "Relevant evidence/location"
+      },
+      {
+        "id": "C",
+        "text": "Publication or collection date"
+      },
+      {
+        "id": "D",
+        "text": "Every token of private reasoning"
+      },
+      {
+        "id": "E",
+        "text": "Decorative formatting preference"
+      }
+    ],
+    "answer": [
+      "A",
+      "B",
+      "C"
+    ],
+    "explanation": "Source, evidence/location, and date allow downstream verification and correct temporal interpretation."
+  }
+]

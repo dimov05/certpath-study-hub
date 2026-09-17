@@ -1,0 +1,89 @@
+# CertPath
+
+A free, local-first certification study website. The first complete learning path is **Claude Certified Architect – Foundations** and includes:
+
+- 30 concise lessons across all five exam domains
+- 84 flashcards with mastery tracking
+- 60 scenario-based practice questions with explanations
+- fresh 10-question practice sessions by domain
+- a timed 60-question / 120-minute mock exam
+- a six-week learning plan
+- downloadable guide, mock exam, flashcards, tracker, and error log
+- reset, export, and import controls for learner progress
+
+The app is designed for GitHub Pages: no database, account, subscription, cookies, or server is required.
+
+## Recommended architecture
+
+The default architecture is **static site + browser storage**:
+
+1. Curriculum and questions are versioned in this repository.
+2. Each learner's progress is stored in their own browser under a certificate-specific key.
+3. **Reset to zero** clears only that learner's current certificate progress.
+4. Export/import JSON makes progress portable without creating accounts.
+5. GitHub Actions builds and deploys the site for free on GitHub Pages.
+
+This is the simplest privacy-friendly option for a public study resource. Its intentional limitation is that progress does not automatically sync between browsers or devices.
+
+## Run locally
+
+Requirements: Node.js 22.13 or newer.
+
+```bash
+npm install
+npm run dev
+```
+
+Open `http://localhost:3000`.
+
+Useful commands:
+
+```bash
+npm run content:generate  # rebuild questions/flashcards from source files
+npm run lint
+npm run build             # production build for OpenAI Sites / Cloudflare runtime
+npm run build:pages       # static export for GitHub Pages
+```
+
+## Deploy to GitHub Pages
+
+1. Create an empty GitHub repository.
+2. Push this project to its `main` branch.
+3. In **Settings → Pages**, set **Source** to **GitHub Actions**.
+4. The included workflow deploys on every push to `main`.
+
+The workflow automatically handles both project URLs (`owner.github.io/repository`) and user/organization URLs (`owner.github.io`). The generated static site is written to `dist/client/`.
+
+## How progress works
+
+Progress is namespaced by certificate in `localStorage`:
+
+```text
+certpath:<certificate-slug>:progress:v1
+```
+
+Sharing or forking the repository never shares anyone's progress. A new learner starts at zero. Existing learners can choose **Progress → Reset to zero**, export a backup, or import a prior backup.
+
+Clearing browser site data also resets local progress. For automatic cross-device sync, see [Architecture options](docs/ARCHITECTURE_OPTIONS.md).
+
+## Add another certificate
+
+The UI reads certificate content from `content/registry.ts`. A second registered certificate automatically activates the learning-path selector in the header.
+
+See [Adding a certificate](docs/ADDING_A_CERTIFICATE.md) and the starter files in `content/certificates/_template/`.
+
+## Content maintenance
+
+- Keep official links in each certificate's `resources` list.
+- Put source material used by generators in `content/source/`.
+- Put learner downloads in `public/materials/`.
+- Verify exam price, eligibility, blueprint, scoring, and policy claims before releases; those details can change.
+- Keep questions original. Do not publish remembered or copied live-exam items.
+
+## Disclaimer
+
+CertPath is an independent study aid and is not affiliated with or endorsed by Anthropic. Product names and trademarks belong to their respective owners. Always verify current exam policies with the certification provider.
+
+## License
+
+MIT. See [LICENSE](LICENSE).

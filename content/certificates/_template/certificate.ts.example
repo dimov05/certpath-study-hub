@@ -1,0 +1,59 @@
+import type { Certificate } from '@/lib/types';
+import flashcards from './flashcards.json';
+import questions from './questions.json';
+
+export const exampleCertificate: Certificate = {
+  slug: 'provider-certificate-name',
+  provider: 'Provider',
+  title: 'Certificate Name',
+  shortTitle: 'Certificate Name',
+  level: 'Foundations',
+  summary: 'What this learning path prepares a learner to do.',
+  updatedAt: 'YYYY-MM-DD',
+  exam: {
+    questions: 60,
+    minutes: 120,
+    passingScore: 'Verify with provider',
+    price: 'Verify with provider',
+    validity: 'Verify with provider',
+  },
+  domains: [
+    {
+      id: 'd1',
+      title: 'Domain one',
+      shortTitle: 'Domain one',
+      weight: 100,
+      color: 'var(--chart-1)',
+      description: 'The skills covered by this domain.',
+      lessons: [
+        {
+          id: 'd1-lesson-1',
+          title: 'First lesson',
+          duration: 30,
+          summary: 'A concise lesson summary.',
+          keyPoints: ['First principle', 'Second principle'],
+          examTraps: ['A plausible but incorrect assumption'],
+          practice: 'A small applied exercise.',
+        },
+      ],
+    },
+  ],
+  questions,
+  flashcards,
+  plan: [
+    {
+      week: 1,
+      title: 'Start here',
+      outcome: 'The observable outcome for this week.',
+      tasks: [{ id: 'w1-task-1', label: 'Complete the first lesson', minutes: 30 }],
+    },
+  ],
+  resources: [
+    {
+      title: 'Official certification page',
+      description: 'Current blueprint and exam policies.',
+      href: 'https://example.com',
+      type: 'official',
+    },
+  ],
+};

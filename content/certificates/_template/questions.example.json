@@ -1,0 +1,29 @@
+[
+  {
+    "id": "q001",
+    "number": 1,
+    "domainId": "d1",
+    "prompt": "Which option best satisfies the requirement?",
+    "select": 1,
+    "options": [
+      { "id": "A", "text": "First option" },
+      { "id": "B", "text": "Second option" }
+    ],
+    "answer": ["A"],
+    "explanation": "Explain the decision rule, not merely the correct letter."
+  },
+  {
+    "id": "q002",
+    "number": 2,
+    "domainId": "d1",
+    "prompt": "Which two actions should be taken?",
+    "select": 2,
+    "options": [
+      { "id": "A", "text": "First action" },
+      { "id": "B", "text": "Second action" },
+      { "id": "C", "text": "Distractor" }
+    ],
+    "answer": ["A", "B"],
+    "explanation": "Explain why both actions are required and why the distractor fails."
+  }
+]

@@ -1,0 +1,85 @@
+Front	Back	Domain
+What signal should control continuation of a client-tool loop?	Continue on stop_reason tool_use; execute calls, append matching tool_result blocks, and call the model again.	Agentic Architecture
+Why should natural-language phrases not terminate an agent loop?	They are probabilistic text; protocol stop reasons are the reliable control signal.	Agentic Architecture
+When is a fixed workflow preferable to an agent?	When steps, order, and contracts are predictable or deterministic compliance is required.	Agentic Architecture
+When is an adaptive agent preferable to a fixed workflow?	When the next action depends on intermediate evidence in an open-ended task.	Agentic Architecture
+What does a coordinator own?	Decomposition, routing, constraints, context handoff, aggregation, recovery, and final accountability.	Agentic Architecture
+Do subagents automatically inherit the parent conversation?	No. Relevant goals, facts, constraints, output contracts, and provenance must be passed explicitly.	Agentic Architecture
+When should tasks run in parallel?	When they are independent and do not require one another's outputs.	Agentic Architecture
+When must tasks run sequentially?	When a later step depends on, validates, or is authorized by an earlier result.	Agentic Architecture
+What is the strongest control for a mandatory verification-before-refund rule?	A programmatic prerequisite or pre-action gate.	Agentic Architecture
+Why are prompts insufficient for hard business rules?	Model compliance is probabilistic and has a non-zero failure rate.	Agentic Architecture
+What belongs in a structured handoff?	Verified identity, issue, facts/evidence, actions attempted, current state, unresolved items, and recommendation.	Agentic Architecture
+What should a failed subagent return?	Failure type, retryability, attempts, partial results, and possible alternatives.	Agentic Architecture
+What is the problem with an iteration cap as the only stop rule?	It is not an outcome criterion; it can stop too early or wastefully run to the cap.	Agentic Architecture
+When should a session be resumed?	When prior context and observations are still mostly valid.	Agentic Architecture
+When should work restart from a verified summary?	When prior tool results are stale or the environment changed materially.	Agentic Architecture
+Why fork a session?	To explore divergent approaches independently from a shared baseline.	Agentic Architecture
+What bounds a long autonomous run?	Outcome criteria, permission limits, budgets, checkpoints, observability, and escalation.	Agentic Architecture
+What makes a good tool description?	Distinct purpose, use/non-use boundaries, inputs, output, constraints, examples, and edge cases.	Tools and MCP
+Why are overlapping tool descriptions dangerous?	They make tool selection ambiguous and cause misrouting.	Tools and MCP
+What does tool_choice auto mean?	Claude may call a tool or respond without one.	Tools and MCP
+What does tool_choice any mean?	Claude must call one of the provided tools.	Tools and MCP
+What does forced named tool choice mean?	Claude must call the specified tool.	Tools and MCP
+How should a successful query with no matches be represented?	As a successful empty result, not an error.	Tools and MCP
+What are the main error categories to distinguish?	Transient, validation, permission, business-rule, and successful-empty.	Tools and MCP
+Which errors are normally retryable?	Transient failures, with bounded retries and backoff.	Tools and MCP
+Which errors should not be blindly retried?	Validation, permission, business-rule, and missing-evidence failures.	Tools and MCP
+What fields belong in a structured tool error?	Category, code, retryability, human-readable/safe message, and attempted operation/context.	Tools and MCP
+What is an MCP tool?	A model-controlled operation or query exposed by an MCP server.	Tools and MCP
+What is an MCP resource?	Application-controlled read-only context/content addressed through MCP.	Tools and MCP
+What is an MCP prompt?	A user-controlled reusable prompt/workflow template.	Tools and MCP
+Where should team-shared MCP configuration live?	In version-controlled project scope, without embedded secrets.	Tools and MCP
+Where should MCP secrets live?	Environment variables or an approved secret store, injected at runtime.	Tools and MCP
+When should you prefer an existing MCP server?	For a standard integration when it meets functional, trust, and security requirements.	Tools and MCP
+When should you build a custom MCP server?	For organization-specific workflows, contracts, controls, or data access.	Tools and MCP
+What principle should govern tool distribution across agents?	Least privilege: only the tools necessary for each role.	Tools and MCP
+What is Grep for in Claude Code?	Searching file contents for patterns.	Tools and MCP
+What is Glob for in Claude Code?	Finding file paths by name or pattern.	Tools and MCP
+What is Edit best for?	Targeted modifications when the anchor text is unique.	Tools and MCP
+What should you do when targeted Edit cannot find a unique match?	Read the file, choose a safer unique edit or intentionally rewrite with verified full content.	Tools and MCP
+What belongs in CLAUDE.md?	Concise always-on project context, commands, conventions, and architecture boundaries.	Claude Code
+What belongs in .claude/rules/?	Topic- or path-specific instructions that should load conditionally.	Claude Code
+What belongs in a skill?	Reusable task-specific knowledge or a multi-step workflow loaded on demand.	Claude Code
+What is a subagent best for?	Isolated verbose exploration, specialization, or independent delegated work.	Claude Code
+What is a hook best for?	A deterministic lifecycle action such as blocking, validation, formatting, logging, or feedback.	Claude Code
+Project scope versus user scope?	Project scope is shared with the team; user scope follows one person across projects.	Claude Code
+What is local scope for?	One developer's project-specific settings or experiments that should not be committed.	Claude Code
+When should you use plan mode?	Unknown scope, multiple approaches, architecture decisions, or broad multi-file changes.	Claude Code
+When should you use direct execution?	A small, clear, reversible change with known verification.	Claude Code
+What is a strong complex-change workflow?	Plan, review/approve, execute, then verify.	Claude Code
+How do you run Claude Code non-interactively?	Use -p or --print.	Claude Code
+What should CI request from Claude Code?	Machine-readable schema-constrained output and a non-interactive run.	Claude Code
+Why use a separate review session?	It avoids anchoring on the generator's prior reasoning and improves independence.	Claude Code
+What should a CI code-review finding include?	Location, issue, evidence, severity, and suggested remediation in a stable schema.	Claude Code
+What should happen before prompt engineering?	Define success criteria and build a representative evaluation set.	Prompting and Output
+Why use few-shot examples?	To demonstrate ambiguous decision boundaries and the desired output format.	Prompting and Output
+What examples reduce false positives?	Both genuine-problem examples and acceptable boundary/non-problem examples.	Prompting and Output
+What does structured output guarantee?	Schema/shape conformance, subject to documented stop conditions and feature limits.	Prompting and Output
+What does structured output not guarantee?	Semantic truth, arithmetic consistency, correct evidence, or domain validity.	Prompting and Output
+How should a schema represent genuinely missing data?	With nullable/optional fields and an explicit missing/unknown status.	Prompting and Output
+When is other plus detail useful in an enum?	When common categories are known but legitimate novel categories may occur.	Prompting and Output
+What follows schema validation?	Domain/semantic validation such as totals, dates, allowed states, and cross-field checks.	Prompting and Output
+What should a corrective retry include?	Original evidence, previous output, and specific validation errors.	Prompting and Output
+When is retry useless?	When the required evidence is absent or access/permission cannot change.	Prompting and Output
+When should Message Batches be used?	High-volume, asynchronous, latency-tolerant workloads.	Prompting and Output
+What is the Message Batches cost benefit?	A 50% discount relative to standard API usage.	Prompting and Output
+Why not use batch for a blocking pre-merge check?	Batch is asynchronous and can take up to 24 hours; latency is not guaranteed.	Prompting and Output
+What is custom_id used for in a batch?	Correlating each request with its result.	Prompting and Output
+How should a large code review be decomposed?	Focused per-file/local passes followed by a cross-file integration pass.	Prompting and Output
+Why is “be conservative” a weak precision control?	It is vague; explicit issue categories, exclusions, and examples define behavior better.	Prompting and Output
+What consumes the context window?	System instructions, messages, tool definitions/results, documents/images, thinking where applicable, and generated output.	Context and Reliability
+Why is more context not always better?	Distraction and context rot can reduce recall and accuracy as context grows.	Context and Reliability
+How should verbose tool output be handled?	Normalize and trim it to task-relevant fields while preserving necessary provenance.	Context and Reliability
+What exact facts should survive summarization?	Identifiers, amounts, dates, statuses, commitments, constraints, decisions, and source mappings.	Context and Reliability
+Does prompt caching reduce context-window occupancy?	No. It can reduce repeated-input cost, but the tokens still occupy context.	Context and Reliability
+What is compaction for?	Reducing accumulated conversation context through summarization so work can continue.	Context and Reliability
+How do subagents help context management?	They isolate verbose work in separate contexts and return compact results.	Context and Reliability
+What are explicit escalation triggers?	Human request, policy gap/exception, inability to progress, authority/risk threshold, or consequential ambiguity.	Context and Reliability
+Why is sentiment a weak escalation proxy?	Emotion does not reliably indicate complexity, authority, or policy requirements.	Context and Reliability
+What should happen when multiple customer records match?	Ask for a discriminating identifier; do not select heuristically.	Context and Reliability
+How should confidence be used?	Calibrate it against labeled data and combine it with consequence and ambiguity for review routing.	Context and Reliability
+Why segment accuracy?	Aggregate metrics can hide severe failures in particular document types or fields.	Context and Reliability
+Why sample high-confidence outputs?	To detect drift and silent novel errors that threshold routing misses.	Context and Reliability
+How should conflicting credible sources be handled?	Preserve both claims with source, evidence, and date; explain the conflict rather than choosing silently.	Context and Reliability
+What provenance should accompany a claim?	Source ID/URL, relevant excerpt/location, date, and interpretive context/method.	Context and Reliability
