@@ -83,3 +83,69 @@ Why segment accuracy?	Aggregate metrics can hide severe failures in particular d
 Why sample high-confidence outputs?	To detect drift and silent novel errors that threshold routing misses.	Context and Reliability
 How should conflicting credible sources be handled?	Preserve both claims with source, evidence, and date; explain the conflict rather than choosing silently.	Context and Reliability
 What provenance should accompany a claim?	Source ID/URL, relevant excerpt/location, date, and interpretive context/method.	Context and Reliability
+Why must the complete assistant tool-use turn remain in conversation history?	It preserves the exact tool requests that later tool_result blocks answer and prevents ambiguous state.	Agentic Architecture
+Which field correlates a client tool result with its request?	tool_use_id must exactly match the id of the corresponding tool_use block.	Agentic Architecture
+How should results for several parallel client tool calls be returned?	Return one tool_result for every call, normally together in a single user message with exact IDs.	Agentic Architecture
+Why must valid tool input still pass application checks?	Schema validity proves shape, not identity, authority, current state, policy compliance, or safety.	Agentic Architecture
+What aggregation behavior preserves useful parallel work when one branch fails?	Keep successful branch results and carry the failed branch's error and coverage impact into the join.	Agentic Architecture
+When should a coordinator re-delegate work?	Only when an explicit coverage or quality check identifies a specific gap that another bounded task can repair.	Agentic Architecture
+Completion criteria versus a budget: what is the difference?	Completion criteria prove success; a budget limits how much the system may spend trying to succeed.	Agentic Architecture
+What is an authority gradient?	Broad autonomy for reversible read-only work and progressively tighter control for writes, spending, messages, or commitments.	Agentic Architecture
+Where is a human checkpoint most valuable?	At a transition from reversible analysis to consequential or irreversible action.	Agentic Architecture
+What must happen before retrying an uncertain side effect?	Reconcile the real external state, ideally by idempotency key, to learn whether the first action completed.	Agentic Architecture
+What makes two approaches a true fork?	They explore independently from a named shared baseline and keep their mutable state and outputs separate.	Agentic Architecture
+When is an evaluator–optimizer loop appropriate?	When quality can be judged by an explicit rubric and revision can improve the result within a bounded loop.	Agentic Architecture
+What is a common symptom of unnecessary agent autonomy?	Repeated searches or actions, wandering plans, rising cost, and no corresponding improvement in evidence or outcomes.	Agentic Architecture
+What different jobs do a tool description and input schema perform?	The description guides selection and intent; the schema constrains the structure of proposed arguments.	Tools and MCP
+When should one backend API become two model-visible tools?	When operations have different user intents, permissions, side effects, prerequisites, or approval requirements.	Tools and MCP
+Why is a broad “manage” or mega-tool risky?	It hides authority boundaries, makes selection ambiguous, and mixes read and write behavior behind one contract.	Tools and MCP
+What makes a consequential tool idempotent?	A stable business-operation key plus a durable record that lets repeated attempts return the original result.	Tools and MCP
+How should a tool execution failure be returned to Claude?	Return a correlated tool_result with a safe structured error and is_error true when supported.	Tools and MCP
+Do MCP read-only or destructive annotations enforce security?	No. They are behavioral hints; the host must still verify behavior and enforce permissions and policy.	Tools and MCP
+Why does MCP capability negotiation matter?	It lets clients and servers declare supported features instead of assuming every host exposes every primitive.	Tools and MCP
+Why should a shared MCP server command be reviewed like code?	The configured package and command execute with access to data and credentials, so they are part of the trust boundary.	Tools and MCP
+What belongs in managed Claude Code scope?	Organization-owned policy that must be centrally enforced and should not be overridden by project or user preferences.	Claude Code
+What is the best response to contradictory settings across scopes?	Remove duplication and keep one clearly owned authoritative setting wherever possible.	Claude Code
+What indicates a path-specific rule is too broad?	It loads during unrelated work, consumes context, or affects files outside the intended pattern.	Claude Code
+Why is a skill description operationally important?	It acts as a routing rule that tells Claude which tasks should and should not load the skill.	Claude Code
+What content is best implemented as a skill script?	Repeatable deterministic mechanics that are safer and more reliable than retyping commands or transformations.	Claude Code
+Why should a skill not enforce an absolute prohibition by itself?	Skill invocation and language-model behavior are probabilistic; hard restrictions need permissions or deterministic hooks.	Claude Code
+What belongs in a subagent assignment contract?	Role, bounded goal, relevant context, allowed tools, limits, evidence requirements, and expected output format.	Claude Code
+PreToolUse versus PostToolUse: what is the key distinction?	PreToolUse can prevent an operation; PostToolUse can inspect, format, validate, log, or respond after it runs.	Claude Code
+Does context isolation automatically create least privilege?	No. Tool permissions and inherited capabilities must be configured explicitly.	Claude Code
+How should a blocking hook fail safely?	It should produce a precise reason and remediation, avoid silent bypass, and have deliberate timeout or failure behavior.	Claude Code
+What makes a technical plan useful?	It records decisions, dependencies, risks, rollback points, and an observable verification for each milestone.	Claude Code
+What should happen when a test invalidates a plan assumption?	Update the plan and remaining implementation from the new evidence instead of following stale steps mechanically.	Claude Code
+What output contract should a headless Claude Code review use?	A stable schema containing location, category, severity, evidence, remediation, and an explicit no-finding result.	Claude Code
+Who should decide whether a model review finding fails CI?	Deterministic CI policy applied to validated, evidence-backed findings—not unparsed model prose.	Claude Code
+Why give automated findings stable fingerprints?	To deduplicate repeated findings and distinguish new, changed, and previously known issues.	Claude Code
+What repository facts are most valuable in CLAUDE.md?	Exact commands, topology, architectural boundaries, protected or generated paths, and validation expectations.	Claude Code
+Why should prompt revisions be compared on a fixed evaluation set?	A stable set makes changes measurable and prevents test variation from being mistaken for improvement.	Prompting and Output
+When does precision matter more than recall?	When false positives are costly, noisy, or consume scarce human review capacity.	Prompting and Output
+Why keep a holdout evaluation set?	It estimates performance on cases not repeatedly used to tune the prompt and helps reveal overfitting.	Prompting and Output
+Why report evaluation results by segment?	A strong average can hide systematic failures in one language, source type, risk tier, or document format.	Prompting and Output
+What should come before adding few-shot examples?	An explicit decision rule with inclusion, exclusion, evidence, priority, and uncertainty criteria.	Prompting and Output
+What is a counterexample used for?	It breaks a misleading shortcut by changing a surface cue while preserving the true decision label.	Prompting and Output
+Why must prompt examples stay separate from held-out tests?	Reusing test cases for instruction leaks the answers and inflates the measured improvement.	Prompting and Output
+JSON structured output versus strict tool use: when should each be used?	Use structured output when the response is data; use strict tool use when Claude must propose valid arguments to an operation.	Prompting and Output
+Does a strict tool schema require Claude to call that tool?	No. Argument validity and tool-choice policy are separate controls.	Prompting and Output
+Why version a schema used by downstream systems?	Consumers need a stable contract and an explicit migration point when fields or meanings change incompatibly.	Prompting and Output
+What is a tagged uncertainty state?	A structured distinction among verified, missing, not applicable, ambiguous, conflicting, or unrecognized values.	Prompting and Output
+What is a semantic invariant?	A domain relationship such as totals balancing, dates being ordered, identifiers being unique, or state transitions being allowed.	Prompting and Output
+When does a model retry have a plausible repair mechanism?	When the retry adds specific feedback, corrected guidance, or new evidence that can change the interpretation.	Prompting and Output
+How should partial failures in a message batch be recovered?	Correlate by stable ID, preserve successful items, and resubmit only transient or repairable failures.	Prompting and Output
+What are the main layers of an agent's working context?	Stable instructions, durable task state, current evidence, recent interaction, and retrievable external artifacts.	Context and Reliability
+What should a normalized tool result preserve?	Decision-critical facts, exact identifiers and values, provenance, freshness, and distinct empty or error states.	Context and Reliability
+When should an observation be removed or refreshed?	When it is stale after an external state change or no longer supports any current or foreseeable decision.	Context and Reliability
+What should a compaction checkpoint contain?	Exact critical facts, decisions, evidence references, completed effects, errors, ambiguity, and pending work.	Context and Reliability
+What does context editing do?	It clears or replaces older context, often verbose tool results, while application state preserves what must remain.	Context and Reliability
+Which context should be protected during tool-result clearing?	Recent results and evidence needed for pending decisions, especially consequential or hard-to-retrieve facts.	Context and Reliability
+What should a recovery test prove?	A fresh context can continue correctly from durable state and evidence references without hidden transcript memory.	Context and Reliability
+“Needs more information” versus “needs escalation”: what differs?	Clarification can supply a discriminating fact; escalation is needed when authority, policy, risk, or safe progress requires a human.	Context and Reliability
+What makes a clarification question discriminating?	It asks for the smallest policy-approved fact that separates the remaining possibilities without exposing private candidates.	Context and Reliability
+What belongs in a typed orchestration error?	Operation, category, retryability, attempts, partial artifacts, affected coverage, and a safe diagnostic message.	Context and Reliability
+When should a specialist recover locally instead of involving the coordinator?	For a bounded failure it understands and can safely retry without changing global coverage, strategy, or budget.	Context and Reliability
+Why must retrieval failure remain distinct from a valid empty result?	Failure means evidence is unavailable; empty success means the search completed and found no matches.	Context and Reliability
+What is confidence calibration?	The measured relationship between a reported confidence level and observed correctness on labeled outcomes.	Context and Reliability
+How should review thresholds vary by field?	Use stricter thresholds for high-consequence values and looser thresholds only where residual error has low impact.	Context and Reliability
+What is a claim–evidence graph?	A mapping from conclusions to claims, from claims to evidence spans, and from evidence to sources, dates, and methods.	Context and Reliability

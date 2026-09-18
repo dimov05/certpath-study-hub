@@ -502,5 +502,401 @@
     "front": "What provenance should accompany a claim?",
     "back": "Source ID/URL, relevant excerpt/location, date, and interpretive context/method.",
     "domain": "Context and Reliability"
+  },
+  {
+    "id": "cca-f-card-85",
+    "front": "Why must the complete assistant tool-use turn remain in conversation history?",
+    "back": "It preserves the exact tool requests that later tool_result blocks answer and prevents ambiguous state.",
+    "domain": "Agentic Architecture"
+  },
+  {
+    "id": "cca-f-card-86",
+    "front": "Which field correlates a client tool result with its request?",
+    "back": "tool_use_id must exactly match the id of the corresponding tool_use block.",
+    "domain": "Agentic Architecture"
+  },
+  {
+    "id": "cca-f-card-87",
+    "front": "How should results for several parallel client tool calls be returned?",
+    "back": "Return one tool_result for every call, normally together in a single user message with exact IDs.",
+    "domain": "Agentic Architecture"
+  },
+  {
+    "id": "cca-f-card-88",
+    "front": "Why must valid tool input still pass application checks?",
+    "back": "Schema validity proves shape, not identity, authority, current state, policy compliance, or safety.",
+    "domain": "Agentic Architecture"
+  },
+  {
+    "id": "cca-f-card-89",
+    "front": "What aggregation behavior preserves useful parallel work when one branch fails?",
+    "back": "Keep successful branch results and carry the failed branch's error and coverage impact into the join.",
+    "domain": "Agentic Architecture"
+  },
+  {
+    "id": "cca-f-card-90",
+    "front": "When should a coordinator re-delegate work?",
+    "back": "Only when an explicit coverage or quality check identifies a specific gap that another bounded task can repair.",
+    "domain": "Agentic Architecture"
+  },
+  {
+    "id": "cca-f-card-91",
+    "front": "Completion criteria versus a budget: what is the difference?",
+    "back": "Completion criteria prove success; a budget limits how much the system may spend trying to succeed.",
+    "domain": "Agentic Architecture"
+  },
+  {
+    "id": "cca-f-card-92",
+    "front": "What is an authority gradient?",
+    "back": "Broad autonomy for reversible read-only work and progressively tighter control for writes, spending, messages, or commitments.",
+    "domain": "Agentic Architecture"
+  },
+  {
+    "id": "cca-f-card-93",
+    "front": "Where is a human checkpoint most valuable?",
+    "back": "At a transition from reversible analysis to consequential or irreversible action.",
+    "domain": "Agentic Architecture"
+  },
+  {
+    "id": "cca-f-card-94",
+    "front": "What must happen before retrying an uncertain side effect?",
+    "back": "Reconcile the real external state, ideally by idempotency key, to learn whether the first action completed.",
+    "domain": "Agentic Architecture"
+  },
+  {
+    "id": "cca-f-card-95",
+    "front": "What makes two approaches a true fork?",
+    "back": "They explore independently from a named shared baseline and keep their mutable state and outputs separate.",
+    "domain": "Agentic Architecture"
+  },
+  {
+    "id": "cca-f-card-96",
+    "front": "When is an evaluator–optimizer loop appropriate?",
+    "back": "When quality can be judged by an explicit rubric and revision can improve the result within a bounded loop.",
+    "domain": "Agentic Architecture"
+  },
+  {
+    "id": "cca-f-card-97",
+    "front": "What is a common symptom of unnecessary agent autonomy?",
+    "back": "Repeated searches or actions, wandering plans, rising cost, and no corresponding improvement in evidence or outcomes.",
+    "domain": "Agentic Architecture"
+  },
+  {
+    "id": "cca-f-card-98",
+    "front": "What different jobs do a tool description and input schema perform?",
+    "back": "The description guides selection and intent; the schema constrains the structure of proposed arguments.",
+    "domain": "Tools and MCP"
+  },
+  {
+    "id": "cca-f-card-99",
+    "front": "When should one backend API become two model-visible tools?",
+    "back": "When operations have different user intents, permissions, side effects, prerequisites, or approval requirements.",
+    "domain": "Tools and MCP"
+  },
+  {
+    "id": "cca-f-card-100",
+    "front": "Why is a broad “manage” or mega-tool risky?",
+    "back": "It hides authority boundaries, makes selection ambiguous, and mixes read and write behavior behind one contract.",
+    "domain": "Tools and MCP"
+  },
+  {
+    "id": "cca-f-card-101",
+    "front": "What makes a consequential tool idempotent?",
+    "back": "A stable business-operation key plus a durable record that lets repeated attempts return the original result.",
+    "domain": "Tools and MCP"
+  },
+  {
+    "id": "cca-f-card-102",
+    "front": "How should a tool execution failure be returned to Claude?",
+    "back": "Return a correlated tool_result with a safe structured error and is_error true when supported.",
+    "domain": "Tools and MCP"
+  },
+  {
+    "id": "cca-f-card-103",
+    "front": "Do MCP read-only or destructive annotations enforce security?",
+    "back": "No. They are behavioral hints; the host must still verify behavior and enforce permissions and policy.",
+    "domain": "Tools and MCP"
+  },
+  {
+    "id": "cca-f-card-104",
+    "front": "Why does MCP capability negotiation matter?",
+    "back": "It lets clients and servers declare supported features instead of assuming every host exposes every primitive.",
+    "domain": "Tools and MCP"
+  },
+  {
+    "id": "cca-f-card-105",
+    "front": "Why should a shared MCP server command be reviewed like code?",
+    "back": "The configured package and command execute with access to data and credentials, so they are part of the trust boundary.",
+    "domain": "Tools and MCP"
+  },
+  {
+    "id": "cca-f-card-106",
+    "front": "What belongs in managed Claude Code scope?",
+    "back": "Organization-owned policy that must be centrally enforced and should not be overridden by project or user preferences.",
+    "domain": "Claude Code"
+  },
+  {
+    "id": "cca-f-card-107",
+    "front": "What is the best response to contradictory settings across scopes?",
+    "back": "Remove duplication and keep one clearly owned authoritative setting wherever possible.",
+    "domain": "Claude Code"
+  },
+  {
+    "id": "cca-f-card-108",
+    "front": "What indicates a path-specific rule is too broad?",
+    "back": "It loads during unrelated work, consumes context, or affects files outside the intended pattern.",
+    "domain": "Claude Code"
+  },
+  {
+    "id": "cca-f-card-109",
+    "front": "Why is a skill description operationally important?",
+    "back": "It acts as a routing rule that tells Claude which tasks should and should not load the skill.",
+    "domain": "Claude Code"
+  },
+  {
+    "id": "cca-f-card-110",
+    "front": "What content is best implemented as a skill script?",
+    "back": "Repeatable deterministic mechanics that are safer and more reliable than retyping commands or transformations.",
+    "domain": "Claude Code"
+  },
+  {
+    "id": "cca-f-card-111",
+    "front": "Why should a skill not enforce an absolute prohibition by itself?",
+    "back": "Skill invocation and language-model behavior are probabilistic; hard restrictions need permissions or deterministic hooks.",
+    "domain": "Claude Code"
+  },
+  {
+    "id": "cca-f-card-112",
+    "front": "What belongs in a subagent assignment contract?",
+    "back": "Role, bounded goal, relevant context, allowed tools, limits, evidence requirements, and expected output format.",
+    "domain": "Claude Code"
+  },
+  {
+    "id": "cca-f-card-113",
+    "front": "PreToolUse versus PostToolUse: what is the key distinction?",
+    "back": "PreToolUse can prevent an operation; PostToolUse can inspect, format, validate, log, or respond after it runs.",
+    "domain": "Claude Code"
+  },
+  {
+    "id": "cca-f-card-114",
+    "front": "Does context isolation automatically create least privilege?",
+    "back": "No. Tool permissions and inherited capabilities must be configured explicitly.",
+    "domain": "Claude Code"
+  },
+  {
+    "id": "cca-f-card-115",
+    "front": "How should a blocking hook fail safely?",
+    "back": "It should produce a precise reason and remediation, avoid silent bypass, and have deliberate timeout or failure behavior.",
+    "domain": "Claude Code"
+  },
+  {
+    "id": "cca-f-card-116",
+    "front": "What makes a technical plan useful?",
+    "back": "It records decisions, dependencies, risks, rollback points, and an observable verification for each milestone.",
+    "domain": "Claude Code"
+  },
+  {
+    "id": "cca-f-card-117",
+    "front": "What should happen when a test invalidates a plan assumption?",
+    "back": "Update the plan and remaining implementation from the new evidence instead of following stale steps mechanically.",
+    "domain": "Claude Code"
+  },
+  {
+    "id": "cca-f-card-118",
+    "front": "What output contract should a headless Claude Code review use?",
+    "back": "A stable schema containing location, category, severity, evidence, remediation, and an explicit no-finding result.",
+    "domain": "Claude Code"
+  },
+  {
+    "id": "cca-f-card-119",
+    "front": "Who should decide whether a model review finding fails CI?",
+    "back": "Deterministic CI policy applied to validated, evidence-backed findings—not unparsed model prose.",
+    "domain": "Claude Code"
+  },
+  {
+    "id": "cca-f-card-120",
+    "front": "Why give automated findings stable fingerprints?",
+    "back": "To deduplicate repeated findings and distinguish new, changed, and previously known issues.",
+    "domain": "Claude Code"
+  },
+  {
+    "id": "cca-f-card-121",
+    "front": "What repository facts are most valuable in CLAUDE.md?",
+    "back": "Exact commands, topology, architectural boundaries, protected or generated paths, and validation expectations.",
+    "domain": "Claude Code"
+  },
+  {
+    "id": "cca-f-card-122",
+    "front": "Why should prompt revisions be compared on a fixed evaluation set?",
+    "back": "A stable set makes changes measurable and prevents test variation from being mistaken for improvement.",
+    "domain": "Prompting and Output"
+  },
+  {
+    "id": "cca-f-card-123",
+    "front": "When does precision matter more than recall?",
+    "back": "When false positives are costly, noisy, or consume scarce human review capacity.",
+    "domain": "Prompting and Output"
+  },
+  {
+    "id": "cca-f-card-124",
+    "front": "Why keep a holdout evaluation set?",
+    "back": "It estimates performance on cases not repeatedly used to tune the prompt and helps reveal overfitting.",
+    "domain": "Prompting and Output"
+  },
+  {
+    "id": "cca-f-card-125",
+    "front": "Why report evaluation results by segment?",
+    "back": "A strong average can hide systematic failures in one language, source type, risk tier, or document format.",
+    "domain": "Prompting and Output"
+  },
+  {
+    "id": "cca-f-card-126",
+    "front": "What should come before adding few-shot examples?",
+    "back": "An explicit decision rule with inclusion, exclusion, evidence, priority, and uncertainty criteria.",
+    "domain": "Prompting and Output"
+  },
+  {
+    "id": "cca-f-card-127",
+    "front": "What is a counterexample used for?",
+    "back": "It breaks a misleading shortcut by changing a surface cue while preserving the true decision label.",
+    "domain": "Prompting and Output"
+  },
+  {
+    "id": "cca-f-card-128",
+    "front": "Why must prompt examples stay separate from held-out tests?",
+    "back": "Reusing test cases for instruction leaks the answers and inflates the measured improvement.",
+    "domain": "Prompting and Output"
+  },
+  {
+    "id": "cca-f-card-129",
+    "front": "JSON structured output versus strict tool use: when should each be used?",
+    "back": "Use structured output when the response is data; use strict tool use when Claude must propose valid arguments to an operation.",
+    "domain": "Prompting and Output"
+  },
+  {
+    "id": "cca-f-card-130",
+    "front": "Does a strict tool schema require Claude to call that tool?",
+    "back": "No. Argument validity and tool-choice policy are separate controls.",
+    "domain": "Prompting and Output"
+  },
+  {
+    "id": "cca-f-card-131",
+    "front": "Why version a schema used by downstream systems?",
+    "back": "Consumers need a stable contract and an explicit migration point when fields or meanings change incompatibly.",
+    "domain": "Prompting and Output"
+  },
+  {
+    "id": "cca-f-card-132",
+    "front": "What is a tagged uncertainty state?",
+    "back": "A structured distinction among verified, missing, not applicable, ambiguous, conflicting, or unrecognized values.",
+    "domain": "Prompting and Output"
+  },
+  {
+    "id": "cca-f-card-133",
+    "front": "What is a semantic invariant?",
+    "back": "A domain relationship such as totals balancing, dates being ordered, identifiers being unique, or state transitions being allowed.",
+    "domain": "Prompting and Output"
+  },
+  {
+    "id": "cca-f-card-134",
+    "front": "When does a model retry have a plausible repair mechanism?",
+    "back": "When the retry adds specific feedback, corrected guidance, or new evidence that can change the interpretation.",
+    "domain": "Prompting and Output"
+  },
+  {
+    "id": "cca-f-card-135",
+    "front": "How should partial failures in a message batch be recovered?",
+    "back": "Correlate by stable ID, preserve successful items, and resubmit only transient or repairable failures.",
+    "domain": "Prompting and Output"
+  },
+  {
+    "id": "cca-f-card-136",
+    "front": "What are the main layers of an agent's working context?",
+    "back": "Stable instructions, durable task state, current evidence, recent interaction, and retrievable external artifacts.",
+    "domain": "Context and Reliability"
+  },
+  {
+    "id": "cca-f-card-137",
+    "front": "What should a normalized tool result preserve?",
+    "back": "Decision-critical facts, exact identifiers and values, provenance, freshness, and distinct empty or error states.",
+    "domain": "Context and Reliability"
+  },
+  {
+    "id": "cca-f-card-138",
+    "front": "When should an observation be removed or refreshed?",
+    "back": "When it is stale after an external state change or no longer supports any current or foreseeable decision.",
+    "domain": "Context and Reliability"
+  },
+  {
+    "id": "cca-f-card-139",
+    "front": "What should a compaction checkpoint contain?",
+    "back": "Exact critical facts, decisions, evidence references, completed effects, errors, ambiguity, and pending work.",
+    "domain": "Context and Reliability"
+  },
+  {
+    "id": "cca-f-card-140",
+    "front": "What does context editing do?",
+    "back": "It clears or replaces older context, often verbose tool results, while application state preserves what must remain.",
+    "domain": "Context and Reliability"
+  },
+  {
+    "id": "cca-f-card-141",
+    "front": "Which context should be protected during tool-result clearing?",
+    "back": "Recent results and evidence needed for pending decisions, especially consequential or hard-to-retrieve facts.",
+    "domain": "Context and Reliability"
+  },
+  {
+    "id": "cca-f-card-142",
+    "front": "What should a recovery test prove?",
+    "back": "A fresh context can continue correctly from durable state and evidence references without hidden transcript memory.",
+    "domain": "Context and Reliability"
+  },
+  {
+    "id": "cca-f-card-143",
+    "front": "“Needs more information” versus “needs escalation”: what differs?",
+    "back": "Clarification can supply a discriminating fact; escalation is needed when authority, policy, risk, or safe progress requires a human.",
+    "domain": "Context and Reliability"
+  },
+  {
+    "id": "cca-f-card-144",
+    "front": "What makes a clarification question discriminating?",
+    "back": "It asks for the smallest policy-approved fact that separates the remaining possibilities without exposing private candidates.",
+    "domain": "Context and Reliability"
+  },
+  {
+    "id": "cca-f-card-145",
+    "front": "What belongs in a typed orchestration error?",
+    "back": "Operation, category, retryability, attempts, partial artifacts, affected coverage, and a safe diagnostic message.",
+    "domain": "Context and Reliability"
+  },
+  {
+    "id": "cca-f-card-146",
+    "front": "When should a specialist recover locally instead of involving the coordinator?",
+    "back": "For a bounded failure it understands and can safely retry without changing global coverage, strategy, or budget.",
+    "domain": "Context and Reliability"
+  },
+  {
+    "id": "cca-f-card-147",
+    "front": "Why must retrieval failure remain distinct from a valid empty result?",
+    "back": "Failure means evidence is unavailable; empty success means the search completed and found no matches.",
+    "domain": "Context and Reliability"
+  },
+  {
+    "id": "cca-f-card-148",
+    "front": "What is confidence calibration?",
+    "back": "The measured relationship between a reported confidence level and observed correctness on labeled outcomes.",
+    "domain": "Context and Reliability"
+  },
+  {
+    "id": "cca-f-card-149",
+    "front": "How should review thresholds vary by field?",
+    "back": "Use stricter thresholds for high-consequence values and looser thresholds only where residual error has low impact.",
+    "domain": "Context and Reliability"
+  },
+  {
+    "id": "cca-f-card-150",
+    "front": "What is a claim–evidence graph?",
+    "back": "A mapping from conclusions to claims, from claims to evidence spans, and from evidence to sources, dates, and methods.",
+    "domain": "Context and Reliability"
   }
 ]

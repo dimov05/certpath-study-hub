@@ -6,7 +6,7 @@ A free, local-first certification study website. The first complete learning pat
 - official links are optional verification and further reading; the required teaching material lives inside CertPath
 - a 30-question diagnostic assessment with domain-level recommendations
 - evidence-based mastery scores combining lessons, practice, retained cards, diagnostics, scenarios, teach-back, and mocks
-- 84 flashcards with browser-local spaced repetition and a daily due queue
+- 150 flashcards—30 per exam domain—with browser-local spaced repetition and a daily due queue
 - 60 scenario-based practice questions with explanations
 - six interactive Architecture Scenario Labs with decision-by-decision feedback
 - fresh 10-question practice sessions by domain
