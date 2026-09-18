@@ -1,5 +1,30 @@
 export type DomainId = string;
 
+export type LessonDetails = {
+  objectives: string[];
+  mentalModel: string;
+  steps?: { title: string; detail: string }[];
+  sections: {
+    title: string;
+    paragraphs: string[];
+    bullets?: string[];
+    code?: { language: string; source: string; caption: string };
+  }[];
+  scenario?: {
+    title: string;
+    situation: string;
+    walkthrough: string[];
+    takeaway: string;
+  };
+  checks: {
+    question: string;
+    options: string[];
+    answer: number;
+    explanation: string;
+  }[];
+  resources: { title: string; href: string; note: string }[];
+};
+
 export type Lesson = {
   id: string;
   title: string;
@@ -8,6 +33,7 @@ export type Lesson = {
   keyPoints: string[];
   examTraps: string[];
   practice: string;
+  details?: LessonDetails;
 };
 
 export type Domain = {

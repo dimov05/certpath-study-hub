@@ -2,7 +2,7 @@
 
 A free, local-first certification study website. The first complete learning path is **Claude Certified Architect – Foundations** and includes:
 
-- 30 concise lessons across all five exam domains
+- 30 full learning modules across all five exam domains, each with objectives, mental models, explanations, scenarios, checks, exercises, and official reading
 - 84 flashcards with mastery tracking
 - 60 scenario-based practice questions with explanations
 - fresh 10-question practice sessions by domain

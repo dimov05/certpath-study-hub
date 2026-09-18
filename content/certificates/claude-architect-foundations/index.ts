@@ -1,6 +1,7 @@
 import flashcardsJson from './flashcards.json';
 import questionsJson from './questions.json';
-import type { Certificate, Domain, Flashcard, Lesson, Question, StudyWeek } from '@/lib/types';
+import { lessonDetails } from './lesson-details';
+import type { Certificate, Domain, Flashcard, Lesson, LessonDetails, Question, StudyWeek } from '@/lib/types';
 
 const lesson = (
   id: string,
@@ -10,7 +11,8 @@ const lesson = (
   keyPoints: string[],
   examTraps: string[],
   practice: string,
-): Lesson => ({ id, title, duration, summary, keyPoints, examTraps, practice });
+  details?: LessonDetails,
+): Lesson => ({ id, title, duration: details || lessonDetails[id] ? Math.max(duration, 45) : duration, summary, keyPoints, examTraps, practice, details: details ?? lessonDetails[id] });
 
 const domains: Domain[] = [
   {
@@ -21,7 +23,151 @@ const domains: Domain[] = [
     color: 'var(--chart-1)',
     description: 'Choose the right execution pattern, coordinate specialists, and enforce critical workflow rules.',
     lessons: [
-      lesson('d1-1', 'The tool-use loop', 28, 'Understand the protocol that turns Claude from a text generator into an application-controlled agent.', ['Drive continuation from stop_reason, not prose.', 'Execute client tools outside the model and return correlated tool_result blocks.', 'Preserve the required conversation history across iterations.'], ['Treating assistant text as a completion signal.', 'Dropping the assistant tool-use turn before sending results.'], 'Draw the complete loop and annotate every responsibility owned by the model versus your application.'),
+      lesson('d1-1', 'The tool-use loop', 45, 'Understand the protocol that turns Claude from a text generator into an application-controlled agent.', ['Drive continuation from stop_reason, not prose.', 'Execute client tools outside the model and return correlated tool_result blocks.', 'Preserve the required conversation history across iterations.'], ['Treating assistant text as a completion signal.', 'Dropping the assistant tool-use turn before sending results.'], 'Draw the complete loop and annotate every responsibility owned by the model versus your application.', {
+        objectives: [
+          'Explain which parts of tool use belong to Claude, the Anthropic API, and your application.',
+          'Trace a tool_use block into an executed operation and a correctly correlated tool_result.',
+          'Implement a loop that branches on stop_reason and handles multiple tool calls.',
+          'Recognize malformed history, unsafe execution, and incorrect completion detection.',
+        ],
+        mentalModel: 'Claude does not call your function. It writes a typed request for your application to execute. Your application is the runtime, security boundary, and source of truth; Claude is the planner and interpreter.',
+        steps: [
+          { title: 'Send', detail: 'Your application sends messages plus tool definitions.' },
+          { title: 'Inspect', detail: 'Claude returns content blocks and a stop_reason.' },
+          { title: 'Validate', detail: 'Your code checks the requested tool, arguments, permissions, and business rules.' },
+          { title: 'Execute', detail: 'Your code runs every approved client-side tool call.' },
+          { title: 'Return', detail: 'A user message returns matching tool_result blocks.' },
+          { title: 'Continue', detail: 'Claude interprets results and either calls more tools or ends the turn.' },
+        ],
+        sections: [
+          {
+            title: '1. The contract and the three actors',
+            paragraphs: [
+              'A tool definition is an interface contract: a name, a description, and an input schema. Claude sees that contract, but it does not see or execute your database query, HTTP client, filesystem function, or approval logic.',
+              'For a client-executed tool, the model chooses a tool and proposes arguments. The Anthropic API transports that structured request. Your application validates and executes it, then reports the observation back. Keeping those responsibilities separate is the foundation of safe agent design.',
+            ],
+            bullets: [
+              'Claude owns reasoning about whether a tool is useful and what arguments to propose.',
+              'The API owns message validation and transports typed content blocks.',
+              'Your application owns authorization, execution, retries, side-effect controls, logging, and result shaping.',
+            ],
+          },
+          {
+            title: '2. Read the response as a protocol',
+            paragraphs: [
+              'A response may contain ordinary text and one or more tool_use blocks. Each tool_use block has an id, name, and input object. The top-level stop_reason tells the application why generation stopped.',
+              'When stop_reason is tool_use, do not treat nearby prose such as “I will check that” or “done” as authoritative. Extract every client tool request, keep its exact id, and decide whether it may run. Multiple independent calls can appear in the same response.',
+            ],
+            bullets: [
+              'end_turn: the model naturally finished; present the answer.',
+              'tool_use: execute approved client tools and continue the loop.',
+              'max_tokens or model_context_window_exceeded: treat the response as truncated, not complete.',
+              'pause_turn: return the paused assistant content so a server-tool loop can continue.',
+              'refusal: handle the refusal path explicitly rather than parsing empty content as an error.',
+            ],
+          },
+          {
+            title: '3. Preserve the message sequence',
+            paragraphs: [
+              'The next request must contain the prior conversation, the complete assistant response that requested the tools, and then a user message whose content begins with the corresponding tool_result blocks. The tool_use_id on each result must equal the id of the request it answers.',
+              'This history is not bookkeeping you can reconstruct approximately. It is how Claude knows which observation belongs to which action. Dropping the assistant turn, inventing a new id, or placing unrelated text before required results breaks the protocol or creates ambiguous state.',
+            ],
+            bullets: [
+              'Return one result for every client tool_use block, including failures.',
+              'For parallel calls, place all tool_result blocks in one user message.',
+              'Use is_error: true when execution failed so Claude can repair, retry, choose an alternative, or explain.',
+              'Keep the same relevant tool definitions available on continuation requests.',
+            ],
+          },
+          {
+            title: '4. A minimal manual loop',
+            paragraphs: [
+              'The loop is application code, not a special model feature. Production versions also need schema validation, permission checks, timeouts, idempotency for consequential operations, result-size limits, observability, and a total cost or iteration budget.',
+            ],
+            code: {
+              language: 'TypeScript',
+              caption: 'Illustrative client-tool loop; adapt SDK names to the current release.',
+              source: `const messages = [{ role: "user", content: userRequest }];
+
+while (true) {
+  const response = await client.messages.create({
+    model,
+    max_tokens: 1200,
+    tools,
+    messages,
+  });
+
+  messages.push({ role: "assistant", content: response.content });
+
+  if (response.stop_reason === "end_turn") {
+    return response.content;
+  }
+
+  if (response.stop_reason !== "tool_use") {
+    return handleExceptionalStop(response);
+  }
+
+  const calls = response.content.filter(block => block.type === "tool_use");
+  const results = await Promise.all(calls.map(async call => {
+    try {
+      validateAuthorization(call.name, call.input);
+      const output = await executeTool(call.name, call.input);
+      return { type: "tool_result", tool_use_id: call.id, content: JSON.stringify(output) };
+    } catch (error) {
+      return { type: "tool_result", tool_use_id: call.id, is_error: true, content: safeError(error) };
+    }
+  }));
+
+  messages.push({ role: "user", content: results });
+}`,
+            },
+          },
+          {
+            title: '5. Reliability and safety decisions',
+            paragraphs: [
+              'Tool input is a proposal, even when it conforms to JSON Schema. Re-check identity, authorization, business thresholds, and current state immediately before execution. A perfectly valid refund request can still be unauthorized or exceed a policy limit.',
+              'Retries belong to the application and should depend on error class. A timeout may be retried with a limit and backoff; invalid arguments should be returned as a structured error; a permission denial should not be retried; an uncertain consequential result may require an idempotency lookup before any second attempt.',
+            ],
+          },
+        ],
+        scenario: {
+          title: 'Worked example: order status and refund request',
+          situation: 'A customer asks, “Where is order A-1042, and refund it if it has not shipped.” Claude requests get_order and request_refund in the same turn.',
+          walkthrough: [
+            'Your application may run get_order, because it is read-only and supplies the state needed for the decision.',
+            'It must not run request_refund in parallel: refund eligibility depends on the order result and possibly verified identity.',
+            'Return the get_order result. Claude can then propose request_refund only if the evidence supports it.',
+            'Before execution, application code checks identity, refund authority, order state, threshold, and idempotency key.',
+            'Return either a success result or a structured policy/error result; Claude explains the outcome or escalates.',
+          ],
+          takeaway: 'Parallelism is not determined by how many tool_use blocks appear. Your application still enforces dependencies and authorization before executing side effects.',
+        },
+        checks: [
+          {
+            question: 'Claude returns text saying “The task is complete,” but stop_reason is tool_use. What should the application do?',
+            options: ['Show the text and exit', 'Execute the requested tools and continue', 'Call the model again without results', 'Change stop_reason to end_turn'],
+            answer: 1,
+            explanation: 'stop_reason is the protocol signal. With tool_use, execute every approved client call and return correlated results before continuing.',
+          },
+          {
+            question: 'Two tool calls are returned together. What is the safest default?',
+            options: ['Always execute both concurrently', 'Return only the first result', 'Check dependencies and permissions, then parallelize only independent calls', 'Ask Claude whether its own calls are safe'],
+            answer: 2,
+            explanation: 'The application owns dependency and authorization enforcement. Independent approved calls can run concurrently; dependent or consequential calls must be serialized or blocked.',
+          },
+          {
+            question: 'Which field connects a tool result to the original request?',
+            options: ['The tool name', 'tool_use_id matching the tool_use id', 'The order of text blocks', 'stop_sequence'],
+            answer: 1,
+            explanation: 'Each tool_result carries tool_use_id equal to the id of the tool_use block it answers.',
+          },
+        ],
+        resources: [
+          { title: 'How tool use works', href: 'https://platform.claude.com/docs/en/agents-and-tools/tool-use/how-tool-use-works', note: 'Conceptual model and canonical client-tool loop.' },
+          { title: 'Handle tool calls', href: 'https://platform.claude.com/docs/en/agents-and-tools/tool-use/handle-tool-calls', note: 'Exact tool_use, tool_result, parallel call, and error mechanics.' },
+          { title: 'Stop reasons and fallback', href: 'https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons', note: 'Current stop_reason values and application behavior.' },
+        ],
+      }),
       lesson('d1-2', 'Workflows versus agents', 24, 'Select deterministic workflows for known paths and agents for evidence-dependent paths.', ['Use chains for predictable ordered stages.', 'Use routing when one specialist path should handle the request.', 'Use adaptive agents only when intermediate findings should change the plan.'], ['Choosing an autonomous agent because it sounds more advanced.', 'Using a static chain for an open-ended investigation.'], 'Classify ten example workloads as chain, router, parallel workflow, agent, or evaluator–optimizer.'),
       lesson('d1-3', 'Coordinator and subagents', 32, 'Design hub-and-spoke systems with isolated specialist contexts and explicit handoffs.', ['The coordinator owns decomposition, routing, aggregation, and recovery.', 'Subagents receive only explicitly supplied context.', 'Return concise structured findings with provenance.'], ['Assuming child agents inherit the parent history.', 'Letting specialists communicate invisibly outside coordinator oversight.'], 'Design a research coordinator with search, analysis, and synthesis specialists.'),
       lesson('d1-4', 'Parallelism and dependencies', 22, 'Run independent work concurrently while preserving ordering where outputs or authorization create dependencies.', ['Parallelize independent searches and per-file inspections.', 'Serialize verification before consequential action.', 'Aggregate only after all required parallel results arrive.'], ['Parallelizing a prerequisite with the action it authorizes.', 'Running independent work sequentially without a constraint.'], 'Create a dependency graph for a multi-issue support request and identify safe parallel branches.'),
