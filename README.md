@@ -4,10 +4,14 @@ A free, local-first certification study website. The first complete learning pat
 
 - 30 self-contained learning modules across all five exam domains, each with objectives, mental models, architecture flows, deep explanations, failure analysis, scenarios, checks, and exercises
 - official links are optional verification and further reading; the required teaching material lives inside CertPath
-- 84 flashcards with mastery tracking
+- a 30-question diagnostic assessment with domain-level recommendations
+- evidence-based mastery scores combining lessons, practice, retained cards, diagnostics, scenarios, teach-back, and mocks
+- 84 flashcards with browser-local spaced repetition and a daily due queue
 - 60 scenario-based practice questions with explanations
+- six interactive Architecture Scenario Labs with decision-by-decision feedback
 - fresh 10-question practice sessions by domain
-- a timed 60-question / 120-minute mock exam
+- randomized, blueprint-weighted mock modes with confidence calibration, focused retakes, attempt comparison, and readiness estimates
+- an “Explain it yourself” active-recall exercise in every lesson
 - a six-week learning plan
 - downloadable guide, mock exam, flashcards, tracker, and error log
 - reset, export, and import controls for learner progress

@@ -29,6 +29,7 @@ The object must satisfy the `Certificate` type in `lib/types.ts`:
 - domains: weights, descriptions, and lessons
 - questions: one or multiple correct options plus an explanation
 - flashcards: front, back, and domain label
+- optional scenarios: architecture situations, constraints, scored decisions, feedback, and a reference blueprint
 - plan: weeks with stable task IDs
 - resources: official sources and optional local downloads
 

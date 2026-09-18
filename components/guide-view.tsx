@@ -1,22 +1,27 @@
 import { useMemo, useState } from 'react';
-import { AlertTriangle, ArrowLeft, ArrowRight, BookOpenCheck, Braces, Check, CheckCircle2, Circle, Clock3, ExternalLink, FlaskConical, GraduationCap, Lightbulb, ListChecks, Route } from 'lucide-react';
+import { AlertTriangle, ArrowLeft, ArrowRight, BookOpenCheck, Braces, Check, CheckCircle2, Circle, Clock3, ExternalLink, FlaskConical, GraduationCap, Lightbulb, ListChecks, MessageSquareText, Route } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { NativeSelect, NativeSelectOption } from '@/components/ui/native-select';
 import { Progress, ProgressLabel, ProgressValue } from '@/components/ui/progress';
+import { Textarea } from '@/components/ui/textarea';
 import type { Certificate, StudyProgress } from '@/lib/types';
 
-export function GuideView({ certificate, progress, onToggleLesson }: { certificate: Certificate; progress: StudyProgress; onToggleLesson: (id: string) => void }) {
+export function GuideView({ certificate, progress, onToggleLesson, onRecordTeachBack }: { certificate: Certificate; progress: StudyProgress; onToggleLesson: (id: string) => void; onRecordTeachBack: (lessonId: string, response: string, rating: 'needs-work' | 'clear') => void }) {
   const allLessons = certificate.domains.flatMap((domain) => domain.lessons);
   const initialId = progress.lastVisitedLesson && allLessons.some((lesson) => lesson.id === progress.lastVisitedLesson) ? progress.lastVisitedLesson : allLessons[0].id;
   const [selectedId, setSelectedId] = useState(initialId);
   const [checkAnswers, setCheckAnswers] = useState<Record<string, number>>({});
   const [revealedChecks, setRevealedChecks] = useState<string[]>([]);
+  const [teachBackDrafts, setTeachBackDrafts] = useState<Record<string, string>>({});
+  const [revealedTeachBacks, setRevealedTeachBacks] = useState<string[]>([]);
   const selectedIndex = allLessons.findIndex((lesson) => lesson.id === selectedId);
   const selected = allLessons[selectedIndex];
   const domain = certificate.domains.find((item) => item.lessons.some((lesson) => lesson.id === selectedId))!;
   const completed = progress.completedLessons.includes(selected.id);
+  const teachBack = progress.teachBacks[selected.id];
+  const teachBackDraft = teachBackDrafts[selected.id] ?? teachBack?.response ?? '';
   const domainCompleted = domain.lessons.filter((lesson) => progress.completedLessons.includes(lesson.id)).length;
   const domainPercent = Math.round((domainCompleted / domain.lessons.length) * 100);
   const grouped = useMemo(() => certificate.domains, [certificate]);
@@ -119,6 +124,13 @@ export function GuideView({ certificate, progress, onToggleLesson }: { certifica
 
               <section className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-5 text-emerald-950">
                 <div className="mb-3 flex items-center gap-2"><FlaskConical className="size-5" /><h3 className="font-semibold">Apply it</h3></div><p className="text-sm leading-6">{selected.practice}</p>
+              </section>
+
+              <section className="mt-6 rounded-2xl border border-violet-200 bg-violet-50/60 p-5 text-violet-950 sm:p-6">
+                <div className="flex flex-wrap items-start justify-between gap-3"><div><div className="flex items-center gap-2"><MessageSquareText className="size-5" /><h3 className="font-semibold">Explain it yourself</h3></div><p className="mt-2 max-w-3xl text-sm leading-6 text-violet-900/70">Without looking back, explain <strong>{selected.title}</strong> to a teammate. Describe what problem it solves, how it works, the most important boundary, and one common failure.</p></div>{teachBack && <Badge variant={teachBack.rating === 'clear' ? 'default' : 'secondary'}>{teachBack.rating === 'clear' ? 'Clearly explained' : 'Needs another pass'}</Badge>}</div>
+                <Textarea className="mt-4 min-h-36 bg-background" value={teachBackDraft} onChange={(event) => setTeachBackDrafts((current) => ({ ...current, [selected.id]: event.target.value }))} placeholder="Write from memory before revealing the checklist…" />
+                {revealedTeachBacks.includes(selected.id) && <div className="mt-4 rounded-xl border border-violet-200 bg-background/75 p-4"><p className="text-xs font-bold uppercase tracking-[0.12em] text-muted-foreground">Your explanation should cover</p><ul className="mt-3 space-y-2">{selected.keyPoints.map((point) => <li key={point} className="flex gap-2 text-sm leading-6"><CheckCircle2 className="mt-1 size-4 shrink-0 text-violet-700" /><span>{point}</span></li>)}</ul></div>}
+                <div className="mt-4 flex flex-wrap items-center gap-2"><Button variant="outline" onClick={() => setRevealedTeachBacks((current) => current.includes(selected.id) ? current : [...current, selected.id])}>Reveal checklist</Button><span className="ml-auto text-xs text-muted-foreground">Self-assess after comparing with the checklist.</span><Button variant="outline" disabled={teachBackDraft.trim().length < 40} onClick={() => onRecordTeachBack(selected.id, teachBackDraft, 'needs-work')}>Needs work</Button><Button disabled={teachBackDraft.trim().length < 40} onClick={() => onRecordTeachBack(selected.id, teachBackDraft, 'clear')}>I can explain it</Button></div>
               </section>
 
               <div className="mt-8"><Progress value={domainPercent}><ProgressLabel>{domain.shortTitle} progress</ProgressLabel><ProgressValue /></Progress></div>

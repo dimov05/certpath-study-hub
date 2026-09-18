@@ -5,15 +5,18 @@ import {
   BookOpen,
   BrainCircuit,
   CalendarDays,
+  ClipboardCheck,
   Compass,
   FileQuestion,
   Flame,
   Layers3,
   Library,
+  Network,
   Sparkles,
   Target,
 } from 'lucide-react';
 import { DashboardView } from '@/components/dashboard-view';
+import { DiagnosticView } from '@/components/diagnostic-view';
 import { FlashcardsView } from '@/components/flashcards-view';
 import { GuideView } from '@/components/guide-view';
 import { MockExamView } from '@/components/mock-exam-view';
@@ -21,6 +24,7 @@ import { PlanView } from '@/components/plan-view';
 import { PracticeView } from '@/components/practice-view';
 import { ProgressDialog } from '@/components/progress-dialog';
 import { ResourcesView } from '@/components/resources-view';
+import { ScenarioLabView } from '@/components/scenario-lab-view';
 import { Badge } from '@/components/ui/badge';
 import { certificates, defaultCertificate, getCertificate } from '@/content/registry';
 import { useStudyProgress } from '@/hooks/use-study-progress';
@@ -28,9 +32,11 @@ import type { ViewId } from '@/lib/types';
 
 const navItems = [
   { id: 'dashboard' as const, label: 'Dashboard', icon: Layers3 },
+  { id: 'diagnostic' as const, label: 'Diagnostic', icon: ClipboardCheck },
   { id: 'guide' as const, label: 'Study guide', icon: BookOpen },
   { id: 'flashcards' as const, label: 'Flashcards', icon: BrainCircuit },
   { id: 'practice' as const, label: 'Practice', icon: FileQuestion },
+  { id: 'scenarios' as const, label: 'Scenario Lab', icon: Network },
   { id: 'mock' as const, label: 'Mock exam', icon: Target },
   { id: 'plan' as const, label: 'Study plan', icon: CalendarDays },
   { id: 'resources' as const, label: 'Resources', icon: Library },
@@ -70,10 +76,12 @@ export function StudyApp() {
 
   const content = {
     dashboard: <DashboardView certificate={certificate} progress={progressState.progress} onNavigate={navigate} />,
-    guide: <GuideView certificate={certificate} progress={progressState.progress} onToggleLesson={progressState.toggleLesson} />,
-    flashcards: <FlashcardsView certificate={certificate} progress={progressState.progress} onToggleMastered={progressState.toggleMasteredCard} />,
+    diagnostic: <DiagnosticView certificate={certificate} progress={progressState.progress} onRecordDiagnostic={progressState.recordDiagnostic} onNavigate={navigate} />,
+    guide: <GuideView certificate={certificate} progress={progressState.progress} onToggleLesson={progressState.toggleLesson} onRecordTeachBack={progressState.recordTeachBack} />,
+    flashcards: <FlashcardsView certificate={certificate} progress={progressState.progress} onReviewCard={progressState.reviewCard} />,
     practice: <PracticeView certificate={certificate} onRecordQuestion={progressState.recordQuestion} />,
-    mock: <MockExamView certificate={certificate} onRecordMock={progressState.recordMock} />,
+    scenarios: <ScenarioLabView certificate={certificate} progress={progressState.progress} onRecordScenario={progressState.recordScenario} />,
+    mock: <MockExamView certificate={certificate} progress={progressState.progress} onRecordMock={progressState.recordMock} />,
     plan: <PlanView certificate={certificate} progress={progressState.progress} onToggleTask={progressState.togglePlanTask} />,
     resources: <ResourcesView certificate={certificate} />,
   }[view];

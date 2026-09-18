@@ -64,6 +64,69 @@ export type Flashcard = {
   domain: string;
 };
 
+export type CardRating = 'again' | 'hard' | 'good' | 'easy';
+
+export type CardReview = {
+  dueAt: string;
+  lastReviewedAt: string;
+  intervalDays: number;
+  ease: number;
+  repetitions: number;
+  lastRating: CardRating;
+};
+
+export type DiagnosticAttempt = {
+  id: string;
+  date: string;
+  score: number;
+  domainScores: Record<string, number>;
+  incorrectQuestionIds: string[];
+};
+
+export type ScenarioAttempt = {
+  scenarioId: string;
+  date: string;
+  score: number;
+  total: number;
+};
+
+export type TeachBackRecord = {
+  lessonId: string;
+  response: string;
+  rating: 'needs-work' | 'clear';
+  updatedAt: string;
+};
+
+export type ArchitectureScenario = {
+  id: string;
+  domainId: string;
+  title: string;
+  difficulty: 'Foundation' | 'Intermediate' | 'Exam-level';
+  situation: string;
+  goal: string;
+  constraints: string[];
+  decisions: {
+    prompt: string;
+    options: { label: string; feedback: string }[];
+    answer: number;
+    principle: string;
+  }[];
+  blueprint: string[];
+};
+
+export type MockAttempt = {
+  id: string;
+  date: string;
+  score: number;
+  domainScores: Record<string, number>;
+  mode?: string;
+  timeSpentSeconds?: number;
+  incorrectQuestionIds?: string[];
+  unansweredQuestionIds?: string[];
+  flaggedQuestionIds?: string[];
+  confidenceAccuracy?: Record<string, number>;
+};
+
 export type StudyWeek = {
   week: number;
   title: string;
@@ -89,6 +152,7 @@ export type Certificate = {
   domains: Domain[];
   questions: Question[];
   flashcards: Flashcard[];
+  scenarios?: ArchitectureScenario[];
   plan: StudyWeek[];
   resources: { title: string; description: string; href: string; type: 'official' | 'download' }[];
 };
@@ -99,11 +163,15 @@ export type StudyProgress = {
   completedLessons: string[];
   completedPlanTasks: string[];
   masteredCards: string[];
-  questionAttempts: Record<string, { attempts: number; correct: number; lastAnsweredAt: string }>;
-  mockAttempts: { id: string; date: string; score: number; domainScores: Record<string, number> }[];
+  cardReviews: Record<string, CardReview>;
+  questionAttempts: Record<string, { attempts: number; correct: number; lastAnsweredAt: string; lastCorrect?: boolean; lastConfidence?: 'low' | 'medium' | 'high' }>;
+  diagnosticAttempts: DiagnosticAttempt[];
+  scenarioAttempts: ScenarioAttempt[];
+  teachBacks: Record<string, TeachBackRecord>;
+  mockAttempts: MockAttempt[];
   lastVisitedLesson?: string;
   createdAt: string;
   updatedAt: string;
 };
 
-export type ViewId = 'dashboard' | 'guide' | 'flashcards' | 'practice' | 'mock' | 'plan' | 'resources';
+export type ViewId = 'dashboard' | 'diagnostic' | 'guide' | 'flashcards' | 'practice' | 'scenarios' | 'mock' | 'plan' | 'resources';

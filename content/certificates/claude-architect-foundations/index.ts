@@ -1,6 +1,7 @@
 import flashcardsJson from './flashcards.json';
 import questionsJson from './questions.json';
 import { lessonDetails } from './lesson-details';
+import { architectureScenarios } from './scenarios';
 import type { Certificate, Domain, Flashcard, Lesson, LessonDetails, Question, StudyWeek } from '@/lib/types';
 
 const lesson = (
@@ -293,11 +294,12 @@ export const claudeArchitectFoundations: Certificate = {
   shortTitle: 'Claude Architect Foundations',
   level: 'Foundations',
   summary: 'Build the judgment to design reliable Claude systems—from agent orchestration and MCP tools to structured output, context strategy, and production safeguards.',
-  updatedAt: '2026-09-17',
+  updatedAt: '2026-09-18',
   exam: { questions: 60, minutes: 120, passingScore: '720 / 1,000', price: '$125', validity: '12 months' },
   domains,
   questions: questionsJson as Question[],
   flashcards: flashcardsJson as Flashcard[],
+  scenarios: architectureScenarios,
   plan,
   resources: [
     { title: 'Official certification page', description: 'Current exam facts, guide, registration, and recommended courses.', href: 'https://anthropic-partners.skilljar.com/claude-certified-architect-foundations-certification', type: 'official' },
