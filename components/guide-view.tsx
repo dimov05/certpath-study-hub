@@ -54,7 +54,7 @@ export function GuideView({ certificate, progress, onToggleLesson }: { certifica
         <article>
           <Card className="overflow-visible">
             <CardContent className="p-6 sm:p-8 lg:p-10">
-              <div className="flex flex-wrap items-center gap-2"><Badge variant="outline">Domain {domain.id.slice(1)}</Badge><Badge variant="secondary">{domain.weight}% of exam</Badge><span className="ml-auto flex items-center gap-1.5 text-xs text-muted-foreground"><Clock3 className="size-3.5" /> {selected.duration} min</span></div>
+              <div className="flex flex-wrap items-center gap-2"><Badge variant="outline">Domain {domain.id.slice(1)}</Badge><Badge variant="secondary">{domain.weight}% of exam</Badge><Badge variant="secondary">Self-contained lesson</Badge><span className="ml-auto flex items-center gap-1.5 text-xs text-muted-foreground"><Clock3 className="size-3.5" /> {selected.duration} min</span></div>
               <h2 className="mt-5 font-heading text-3xl font-semibold tracking-tight">{selected.title}</h2>
               <p className="mt-4 text-base leading-7 text-muted-foreground">{selected.summary}</p>
 
@@ -101,7 +101,8 @@ export function GuideView({ certificate, progress, onToggleLesson }: { certifica
                 </section>
 
                 <section className="mt-10">
-                  <div className="mb-4 flex items-center gap-2"><ExternalLink className="size-5 text-primary" /><h3 className="font-semibold">Continue with official documentation</h3></div>
+                  <div className="mb-1 flex items-center gap-2"><ExternalLink className="size-5 text-primary" /><h3 className="font-semibold">Optional source verification</h3></div>
+                  <p className="mb-4 text-sm leading-6 text-muted-foreground">This lesson contains the material you need. Use these official links only to verify current product behavior or explore further.</p>
                   <div className="grid gap-3 sm:grid-cols-2">{selected.details.resources.map((resource) => <a key={resource.href} href={resource.href} target="_blank" rel="noreferrer" className="rounded-xl border p-4 transition-colors hover:border-primary/40 hover:bg-muted/35"><p className="flex items-center gap-2 text-sm font-semibold">{resource.title}<ExternalLink className="size-3.5" /></p><p className="mt-1 text-xs leading-5 text-muted-foreground">{resource.note}</p></a>)}</div>
                 </section>
               </> : <section className="mt-8">

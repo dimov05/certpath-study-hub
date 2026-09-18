@@ -1,4 +1,5 @@
 import type { LessonDetails } from '@/lib/types';
+import { lessonSupplements } from './lesson-supplements';
 
 type Seed = {
   objectives: string[];
@@ -297,3 +298,15 @@ export const lessonDetails: Record<string, LessonDetails> = {
     resources: [contextWindows, { title: 'Citations', href: 'https://platform.claude.com/docs/en/build-with-claude/citations', note: 'Grounding generated claims in source material.' }],
   }),
 };
+
+for (const [id, supplement] of Object.entries(lessonSupplements)) {
+  const base = lessonDetails[id];
+  if (!base) continue;
+
+  lessonDetails[id] = {
+    ...base,
+    steps: supplement.steps,
+    sections: [base.sections[0], ...supplement.sections, ...base.sections.slice(1)],
+    checks: [...base.checks, ...supplement.checks],
+  };
+}
